@@ -14,23 +14,6 @@ function List() {
     "Panini B",
     "Saraswati",
     "Nagarjuna",
-    "Vivekananda",
-    "Vashishtha",
-    "Panini A",
-    "Panini B",
-    "Saraswati",
-    "Nagarjuna Girls Hostel","Vivekananda",
-    "Vashishtha",
-    "Panini A",
-    "Panini B",
-    "Saraswati",
-    "Nagarjuna",
-    "Vivekananda",
-    "Vashishtha",
-    "Panini A",
-    "Panini B",
-    "Saraswati",
-    "Nagarjuna Girls Hostel",
   ]
 
   return (
