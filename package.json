@@ -10,9 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-hover-card": "^1.1.1",
     "@radix-ui/react-navigation-menu": "^1.2.0",
+    "@radix-ui/react-popover": "^1.1.1",
+    "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toggle": "^1.1.0",
+    "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/themes": "^3.1.1",
     "@tanstack/react-table": "^8.19.3",
     "class-variance-authority": "^0.7.0",
@@ -20,6 +26,7 @@
     "lucide-react": "^0.408.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-resizable-panels": "^2.0.20",
     "react-router-dom": "^6.24.1",
     "recharts": "^2.12.7",
     "tailwind-merge": "^2.4.0",

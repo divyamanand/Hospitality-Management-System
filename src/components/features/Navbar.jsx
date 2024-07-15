@@ -6,7 +6,7 @@ import {
     NavigationMenuLink,
     navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu';
-import { BellIcon, SearchIcon } from 'lucide-react';
+import { BellIcon } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 function Navbar() {
@@ -19,7 +19,7 @@ function Navbar() {
       </h1>
       </NavLink>
       <NavigationMenu className="ml-auto">
-        <NavigationMenuList className="flex gap-4">
+        <NavigationMenuList className="flex gap-2">
           <NavigationMenuItem>
             <NavLink
             to="/dashboard">
@@ -32,7 +32,15 @@ function Navbar() {
           <NavLink
             to="/hostels">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Manage Hostel
+              Hostels
+            </NavigationMenuLink>
+            </NavLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+          <NavLink
+            to="/rooms">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Rooms
             </NavigationMenuLink>
             </NavLink>
           </NavigationMenuItem>

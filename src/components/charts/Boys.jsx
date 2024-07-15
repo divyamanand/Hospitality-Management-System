@@ -76,7 +76,7 @@ export default function Boys() {
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1">
-          <CardTitle>Boys Hostel</CardTitle>
+          <CardTitle>Boys</CardTitle>
         </div>
         <Select value={activeMonth} onValueChange={setActiveMonth}>
           <SelectTrigger
@@ -115,20 +115,6 @@ export default function Boys() {
         </Select>
       </CardHeader>
       <CardContent className="flex flex-1 justify-center pb-0">
-      <CardContent>
-            <li>
-                Total Hostels: 10
-            </li>
-            <li>
-                Total Rooms: 300
-            </li>
-            <li>
-                Vacant Rooms: 150
-            </li>
-            <li>
-                Vacant Births: 200
-            </li>
-          </CardContent>
         <ChartContainer
           id={id}
           config={chartConfig}
