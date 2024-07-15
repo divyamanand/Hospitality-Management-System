@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '../ui/input';
+import Input from '../ui/input';
 
 function UploadSection({ title, message, id }) {
   return (
@@ -19,7 +19,7 @@ function UploadSection({ title, message, id }) {
         </CardDescription>
       </CardHeader>
       <CardFooter className="sm:mt-0 mt-4">
-        <Input id={id} type="file" accept=".csv" className="mt-auto" />
+        <Input id={id} type="file" placeholder="" accept=".csv" className="mt-auto"/>
       </CardFooter>
     </div>
   );

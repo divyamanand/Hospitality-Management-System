@@ -1,12 +1,19 @@
 import "./App.css";  // Import the CSS file
-import InputCard from "./Pages/InputCard";
-import Dashboard from "./Pages/Dashboard";
-import ManageHostels from "./Pages/ManageHostels";
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import Navbar from '@/components/features/Navbar';
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <div className="app-container">
-      <ManageHostels/>
+    <div>
+      <Card>
+              <CardHeader>
+                  <Navbar/>
+              </CardHeader>
+              <CardContent>
+                <Outlet/>
+              </CardContent>
+        </Card>
     </div>
   );
 }

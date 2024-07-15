@@ -6,14 +6,7 @@ import UploadFile from '../components/features/UploadFile';
 function InputCard() {
     return (
         <>
-            <Card>
-                <CardHeader>
-                    <Navbar/>
-                </CardHeader>
-                <CardContent>
-                    <UploadFile/>
-                </CardContent>
-            </Card>
+            <UploadFile/>
         </>
     );
 }
