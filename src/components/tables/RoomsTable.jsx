@@ -11,13 +11,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Link } from 'react-router-dom'
 import SearchItem from '../features/SearchItem'
-import { PlusIcon } from 'lucide-react'
-import { Button } from '../ui/button'
+import { Button } from '@/components/ui/button'
+import { LayoutGridIcon, ListIcon, PlusIcon } from 'lucide-react'
+import Hover from '../features/HoverCard'
+import TeamsTable from './TeamsTable'
+import PopCard from '../features/PopCard'
 
-
-const HostelsTable = () => {
+function RoomsTable() {
   const hostels = [
     {
       Hostel: 'Vashishtha',
@@ -72,6 +73,7 @@ const HostelsTable = () => {
 
   const [filteredHostels, setFilteredHostels] = useState(hostels)
   const [searchValue, setSearchValue] = useState('')
+  const [listview, setListview] = useState(true)
 
   useEffect(() => {
     if (searchValue) {
@@ -87,33 +89,41 @@ const HostelsTable = () => {
 
   return (
     <>
-      
       <div className='flex'>
-      <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
-        Manage Your Hostels
-      </h2>
-      <Button className="ml-auto">
-        <PlusIcon className='h-auto w-auto'/> New / Update
+        <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
+          Rooms
+        </h2>
+        <Button className="ml-auto">
+          <PlusIcon className='h-auto w-auto'/> New / Update
         </Button>
       </div>
-      <SearchItem message='Search Hostel' handleChange={(e) => setSearchValue(e.target.value)}/>
-      <div className="flex justify-start mb-2">
+      <SearchItem message="Search Room" handleChange={(e) => setSearchValue(e.target.value)} />
+      <div className="flex justify-start mb-2 align-bottom">
         <ToggleGroup type="single" className="inline-block">
-          <ToggleGroupItem value="Male">
-            <h4>Male</h4>
+          <ToggleGroupItem value="Available">
+            <h4>Available</h4>
           </ToggleGroupItem>
-          <ToggleGroupItem value="Female">
-            <h4>Female</h4>
+          <ToggleGroupItem value="Booked">
+            <h4>Booked</h4>
+          </ToggleGroupItem>
+          <ToggleGroupItem value="Partial">
+            <h4>Partially Booked</h4>
           </ToggleGroupItem>
         </ToggleGroup>
+        <Button 
+          onClick={() => setListview(!listview)}
+          variant="secondary" 
+          className="ml-auto">
+          {listview ? <LayoutGridIcon /> : <ListIcon />}
+        </Button>
       </div>
       <div className="border-2 rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Hostel</TableHead>
-              <TableHead>Occupancy</TableHead>
-              <TableHead>Available</TableHead>
+              <TableHead className="w-[100px]">Room</TableHead>
+              <TableHead>Capacity</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Gender</TableHead>
               <TableHead className="text-right">Details</TableHead>
             </TableRow>
@@ -125,9 +135,14 @@ const HostelsTable = () => {
                 <TableCell>{hostel.Occupancy}</TableCell>
                 <TableCell>{hostel.Available}</TableCell>
                 <TableCell>{hostel.Gender}</TableCell>
-                <TableCell className="text-right font-bold text-xs">
-                  <Link to="/rooms">{hostel.Details}</Link>
-                </TableCell>
+                <PopCard
+                trigger={<TableCell 
+                className="text-right font-bold text-xs cursor-pointer">
+                  {hostel.Details}
+                </TableCell>}
+                content={
+                  <TeamsTable/>
+                }/>
               </TableRow>
             ))}
           </TableBody>
@@ -137,4 +152,4 @@ const HostelsTable = () => {
   )
 }
 
-export default HostelsTable
+export default RoomsTable

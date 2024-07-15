@@ -10,8 +10,10 @@ function App() {
               <CardHeader>
                   <Navbar/>
               </CardHeader>
-              <CardContent>
+              <CardContent >
+              <div style={{marginInline: "10%"}}>
                 <Outlet/>
+              </div>
               </CardContent>
         </Card>
     </div>

@@ -115,20 +115,6 @@ export default function Girls() {
         </Select>
       </CardHeader>
       <CardContent className="flex flex-1 justify-center pb-0">
-      <CardContent>
-            <li>
-                Total Hostels: 10
-            </li>
-            <li>
-                Total Rooms: 300
-            </li>
-            <li>
-                Vacant Rooms: 150
-            </li>
-            <li>
-                Vacant Births: 200
-            </li>
-          </CardContent>
         <ChartContainer
           id={id}
           config={chartConfig}
