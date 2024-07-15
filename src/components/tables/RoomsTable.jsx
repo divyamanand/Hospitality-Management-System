@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -15,65 +16,199 @@ import SearchItem from '../features/SearchItem'
 import { Button } from '@/components/ui/button'
 import { LayoutGridIcon, ListIcon, PlusIcon } from 'lucide-react'
 import Hover from '../features/HoverCard'
-import TeamsTable from './TeamsTable'
+import TeamsTable from './TeamsPopup'
 import PopCard from '../features/PopCard'
 
 function RoomsTable() {
   const hostels = [
     {
-      Hostel: 'Vashishtha',
-      Occupancy: 'Paid',
-      Available: '$250.00',
-      Gender: "Male",
+      room: '101',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
       Details: 'View Details',
     },
     {
-      Hostel: 'Vivekananda',
-      Occupancy: 'Pending',
-      Available: '$150.00',
-      Gender: "Female",
+      room: '102',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
       Details: 'View Details',
     },
     {
-      Hostel: 'Panini A',
-      Occupancy: 'Unpaid',
-      Available: '$350.00',
-      Gender: "Male",
+      room: '103',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
       Details: 'View Details',
     },
     {
-      Hostel: 'Panini B',
-      Occupancy: 'Paid',
-      Available: '$450.00',
-      Gender: "Male",
+      room: '104',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
       Details: 'View Details',
     },
     {
-      Hostel: 'Panini C',
-      Occupancy: 'Paid',
-      Available: '$550.00',
-      Gender: "Female",
+      room: '105',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
       Details: 'View Details',
     },
     {
-      Hostel: 'Saraswati',
-      Occupancy: 'Pending',
-      Available: '$200.00',
-      Gender: "Male",
+      room: '106',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
       Details: 'View Details',
     },
     {
-      Hostel: 'Nagarjuna Girls Hostel',
-      Occupancy: 'Unpaid',
-      Available: '$300.00',
-      Gender: "Male",
+      room: '107',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '108',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '109',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '110',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '111',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '112',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '113',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '114',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '115',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '116',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '117',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '118',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '119',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '120',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '121',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '122',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '123',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '124',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '125',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '126',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '127',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
+      Details: 'View Details',
+    },
+    {
+      room: '128',
+      capacity: Math.floor(Math.random() * 4) + 1,
+      status: Math.round(Math.random()),
       Details: 'View Details',
     },
   ]
+  
 
   const [filteredHostels, setFilteredHostels] = useState(hostels)
+  const [listHostels, setListHostels] = useState(filteredHostels)
   const [searchValue, setSearchValue] = useState('')
-  const [listview, setListview] = useState(true)
+  const [current, setCurrent] = useState(1)
+  const totalPages = Math.ceil(filteredHostels.length / 10)
+  const [filters, setFilters] = useState({
+    listview: true,
+    available: false,
+    booked: false,
+    partially: false
+  })
+
+  useEffect(() => {
+    const startIdx = (current - 1) * 10
+    const endIdx = Math.min(startIdx + 10, filteredHostels.length)
+    setListHostels(filteredHostels.slice(startIdx, endIdx))
+  }, [current, filteredHostels])
 
   useEffect(() => {
     if (searchValue) {
@@ -85,7 +220,7 @@ function RoomsTable() {
     } else {
       setFilteredHostels(hostels)
     }
-  }, [searchValue, hostels])
+  }, [searchValue])
 
   return (
     <>
@@ -111,10 +246,10 @@ function RoomsTable() {
           </ToggleGroupItem>
         </ToggleGroup>
         <Button 
-          onClick={() => setListview(!listview)}
+          onClick={() => setListview(!filters.listview)}
           variant="secondary" 
           className="ml-auto">
-          {listview ? <LayoutGridIcon /> : <ListIcon />}
+          {filters.listview ? <LayoutGridIcon /> : <ListIcon />}
         </Button>
       </div>
       <div className="border-2 rounded-lg">
@@ -124,21 +259,19 @@ function RoomsTable() {
               <TableHead className="w-[100px]">Room</TableHead>
               <TableHead>Capacity</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Gender</TableHead>
               <TableHead className="text-right">Details</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredHostels.map((hostel) => (
-              <TableRow key={hostel.Hostel}>
-                <TableCell className="font-medium">{hostel.Hostel}</TableCell>
-                <TableCell>{hostel.Occupancy}</TableCell>
-                <TableCell>{hostel.Available}</TableCell>
-                <TableCell>{hostel.Gender}</TableCell>
+            {listHostels.map((val, index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{val.room}</TableCell>
+                <TableCell>{val.capacity}</TableCell>
+                <TableCell>{val.status}</TableCell>
                 <PopCard
                 trigger={<TableCell 
                 className="text-right font-bold text-xs cursor-pointer">
-                  {hostel.Details}
+                  {val.Details}
                 </TableCell>}
                 content={
                   <TeamsTable/>
@@ -147,6 +280,21 @@ function RoomsTable() {
             ))}
           </TableBody>
         </Table>
+      </div>
+      <div className='flex items-center gap-3 justify-end my-3 mx-auto'>
+        <Button variant="outline" size="icon" className="w-9 h-9"
+        onClick={() => setCurrent(current - 1)}
+        disabled={current <= 1}
+        ><ChevronLeft className='h-4 w-10'/></Button>
+        <div className="text-xl font-semibold">{current}</div>
+        <div className="text-md">{`/ ${totalPages}`}</div>
+        <Button 
+        variant="outline"
+        size="icon"
+        className="w-9 h-9"
+        onClick={() => setCurrent(current + 1)}
+        disabled={current === totalPages}>
+          <ChevronRight className='h-4 w-10'/></Button>
       </div>
     </>
   )

@@ -2,9 +2,10 @@ import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { ScrollArea } from '../ui/scroll-area'
 
-function TeamsTable() {
+function TeamsPopup() {
+
   return (
-    <ScrollArea>
+    <ScrollArea className="max-h-[50vh] overflow-y-auto min-h-min">
     <div className="border-2 rounded-lg w-min h-min">
       <Table>
         <TableHeader>
@@ -18,14 +19,6 @@ function TeamsTable() {
             <TableCell className="font-medium">12332423</TableCell>
             <TableCell className="text-right">4</TableCell>
           </TableRow>
-          <TableRow className="border-t border-b">
-            <TableCell className="font-medium">12332424</TableCell>
-            <TableCell className="text-right">3</TableCell>
-          </TableRow>
-          <TableRow className="border-t border-b">
-            <TableCell className="font-medium">12332423</TableCell>
-            <TableCell className="text-right">4</TableCell>
-          </TableRow>
           
         </TableBody>
       </Table>
@@ -34,4 +27,4 @@ function TeamsTable() {
   )
 }
 
-export default TeamsTable
+export default TeamsPopup

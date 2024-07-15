@@ -7,6 +7,7 @@ import Dashboard from './Pages/Dashboard.jsx'
 import InputCard from './Pages/InputCard.jsx'
 import ManageHostels from './Pages/ManageHostels.jsx'
 import Rooms from './Pages/Rooms.jsx'
+import Teams from './Pages/Teams.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,8 @@ const router = createBrowserRouter(
       <Route path = "hostels" element={<ManageHostels/>}/>
       <Route path = "" element={<InputCard/>}/>
       <Route path = "rooms" element={<Rooms/>}/>
+      <Route path = "teams" element={<Teams/>}/>
+
     </Route>
   )
 )

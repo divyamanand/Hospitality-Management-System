@@ -45,6 +45,14 @@ function Navbar() {
             </NavLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
+          <NavLink
+            to="/teams">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Teams
+            </NavigationMenuLink>
+            </NavLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <BellIcon />
             </NavigationMenuLink>
