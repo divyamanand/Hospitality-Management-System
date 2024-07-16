@@ -5,7 +5,7 @@ import HostelsTable from '@/components/tables/HostelsTable';
 const ManageHostels = () => {
   return (
     <>
-        
+      
     <HostelsTable/>
     </>
   )

@@ -73,7 +73,7 @@ export default function Visitors() {
               dataKey="visitors"
               nameKey="browser"
               innerRadius={60}
-              outerRadius={80} // Added outerRadius for the donut effect
+              outerRadius={90} // Added outerRadius for the donut effect
               strokeWidth={5}
             >
               <Label
