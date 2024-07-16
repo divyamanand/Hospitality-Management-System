@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { Link } from 'react-router-dom'
-import SearchItem from '../features/SearchItem'
-import { PlusIcon } from 'lucide-react'
-import { Button } from '../ui/button'
+import React, { useState, useEffect } from 'react';
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Link } from 'react-router-dom';
+import SearchItem from '../features/SearchItem';
+import { PlusIcon } from 'lucide-react';
+import { Button } from '../ui/button';
 
-
-const HostelsTable = () => {
-  const hostels = [
+const HostelsTable = ({
+  hostels = [
     {
       Hostel: 'Vashishtha',
       Occupancy: 'Paid',
@@ -65,44 +54,65 @@ const HostelsTable = () => {
       Hostel: 'Nagarjuna Girls Hostel',
       Occupancy: 'Unpaid',
       Available: '$300.00',
-      Gender: "Male",
+      Gender: "Female",
       Details: 'View Details',
     },
   ]
-
-  const [filteredHostels, setFilteredHostels] = useState(hostels)
-  const [searchValue, setSearchValue] = useState('')
+}) => {
+  const [filteredHostels, setFilteredHostels] = useState(hostels);
+  const [searchValue, setSearchValue] = useState('');
+  const [filters, setFilters] = useState({
+    male: false,
+    female: false,
+  });
 
   useEffect(() => {
+    let updatedHostels = hostels;
+
     if (searchValue) {
-      setFilteredHostels(
-        hostels.filter((value) =>
-          value.Hostel.toLowerCase().includes(searchValue.toLowerCase())
-        )
-      )
-    } else {
-      setFilteredHostels(hostels)
+      updatedHostels = updatedHostels.filter((value) =>
+        value.Hostel.toLowerCase().includes(searchValue.toLowerCase())
+      );
     }
-  }, [searchValue, hostels])
+
+    if (filters.male) {
+      updatedHostels = updatedHostels.filter(val => val.Gender === "Male");
+    } else if (filters.female) {
+      updatedHostels = updatedHostels.filter(val => val.Gender === "Female");
+    }
+
+    setFilteredHostels(updatedHostels);
+  }, [searchValue, filters, hostels]);
 
   return (
     <>
-      
       <div className='flex'>
-      <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
-        Manage Your Hostels
-      </h2>
-      <Button className="ml-auto">
-        <PlusIcon className='h-auto w-auto'/> New / Update
+        <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
+          Manage Your Hostels
+        </h2>
+        <Button className="ml-auto">
+          <PlusIcon className='h-auto w-auto' /> New / Update
         </Button>
       </div>
-      <SearchItem message='Search Hostel' handleChange={(e) => setSearchValue(e.target.value)}/>
+      <SearchItem message='Search Hostel' handleChange={(e) => setSearchValue(e.target.value)} />
       <div className="flex justify-start mb-2">
         <ToggleGroup type="single" className="inline-block">
-          <ToggleGroupItem value="Male">
+          <ToggleGroupItem
+            value="Male"
+            onClick={() =>
+              setFilters({ male: !filters.male, female: false })
+            }
+            className={filters.male ? 'bg-gray-200' : ''}
+          >
             <h4>Male</h4>
           </ToggleGroupItem>
-          <ToggleGroupItem value="Female">
+          <ToggleGroupItem
+            value="Female"
+            onClick={() =>
+              setFilters({ male: false, female: !filters.female })
+            }
+            className={filters.female ? 'bg-gray-200' : ''}
+          >
             <h4>Female</h4>
           </ToggleGroupItem>
         </ToggleGroup>
@@ -119,8 +129,8 @@ const HostelsTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredHostels.map((hostel) => (
-              <TableRow key={hostel.Hostel}>
+            {filteredHostels.map((hostel, index) => (
+              <TableRow key={index}>
                 <TableCell className="font-medium">{hostel.Hostel}</TableCell>
                 <TableCell>{hostel.Occupancy}</TableCell>
                 <TableCell>{hostel.Available}</TableCell>
@@ -134,7 +144,7 @@ const HostelsTable = () => {
         </Table>
       </div>
     </>
-  )
+  );
 }
 
-export default HostelsTable
+export default HostelsTable;

@@ -6,11 +6,11 @@ import {
   } from "@/components/ui/popover"
 import { PopoverArrow } from '@radix-ui/react-popover'
   
-function PopCard({trigger, content}) {
+function PopCard({trigger, content, side="left"}) {
   return (
     <Popover>
         <PopoverTrigger>{trigger}</PopoverTrigger>
-        <PopoverContent side="left" className="w-min">
+        <PopoverContent side={side} className="w-min">
             <PopoverArrow className='w-3 h-2 fill-white shadow-lg'/>
             {content}</PopoverContent>
     </Popover>
