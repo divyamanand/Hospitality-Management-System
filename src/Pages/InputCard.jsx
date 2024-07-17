@@ -5,10 +5,10 @@ import Input from '@/components/ui/input';
 import { ChevronRight, RotateCcw, Upload } from 'lucide-react';
 import Papa from 'papaparse';
 import { useData } from '@/data/useData';
-import { formatData } from '@/data/fromatData';
+import { formatTeamsData } from '@/data/fromatData';
 
 const InputCard = () => {
-  const { setHostels, setTeams } = useData();
+  const { teams, hostels, setHostels, setTeams } = useData();
 
   const [hostelFile, setHostelFile] = useState(null);
   const [teamsFile, setTeamsFile] = useState(null);
@@ -47,7 +47,7 @@ const InputCard = () => {
     }
     if (teamsFile) {
       const data = teamsFile.fileData.slice(0, -1);
-      setTeams(formatData(data));
+      setTeams(formatTeamsData(data));
     }
   };
 
@@ -57,7 +57,7 @@ const InputCard = () => {
     localStorage.removeItem('hostelFile');
     localStorage.removeItem('teamsFile');
   };
-
+console.log(hostels)
   return (
     <Card className="w-fit mx-auto p-4 flex flex-col gap-4">
       <div className="w-full p-4">
