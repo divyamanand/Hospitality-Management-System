@@ -19,11 +19,11 @@ function RoomsTable({ filteredHostels}) {
   const getStatus = (val) => {
     const statusValue = (val.vacant / val.capacity) * 100;
     if (statusValue === 100) {
-      return <Badge className="bg-green-800 hover:bg-green-800/80">Empty</Badge>;
+      return <Badge className="bg-green-800 hover:bg-green-800/80 w-full">Empty</Badge>;
     } else if (statusValue === 0) {
-      return <Badge variant="destructive">Occupied</Badge>;
+      return <Badge variant="destructive" className="w-full">Occupied</Badge>;
     } else {
-      return <Progress value={statusValue} />;
+      return <Progress value={statusValue}/>;
     }
   };
 
@@ -52,7 +52,7 @@ function RoomsTable({ filteredHostels}) {
                 <TableCell className="font-medium">{val.room}</TableCell>
                 <TableCell>{val.capacity}</TableCell>
                 <TableCell>{val.vacant}</TableCell>
-                <TableCell className="flex">
+                <TableCell className="flex w-[70%]">
                 {getStatus(val)}
                 </TableCell>
                 <TableCell className="text-right font-bold text-xs">
