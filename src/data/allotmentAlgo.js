@@ -22,7 +22,7 @@ const fullAllotment = (teams, hostels, gender) => {
 const partialAllotment = (teams, hostels, gender) => {
     teams.forEach(team => {
         for (let hostel of hostels) {
-            console.log(hostel.Vacancy > 0 &&  typeof(team.Allotted) === "number" )
+           
             if (hostel.Vacancy > 0 && (typeof(team.Allotted) === "number")) {
                 const membersToAllot = Math.min(hostel.Vacancy, team[gender] - team.Allotted);
                 team.Rooms.push({

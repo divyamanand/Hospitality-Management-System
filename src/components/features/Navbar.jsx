@@ -8,8 +8,10 @@ import {
 } from '@/components/ui/navigation-menu';
 import { BellIcon } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { useData } from '@/data/useData';
 
 function Navbar() {
+  const {allotment} = useData()
   return (
     <div className="flex items-center justify-between py-4 px-6 lg:px-12">
       <NavLink
@@ -18,40 +20,43 @@ function Navbar() {
         HOSTEL
       </h1>
       </NavLink>
-      <NavigationMenu className="ml-auto">
+      <NavigationMenu className="ml-auto" >
         <NavigationMenuList className="flex gap-2">
-          <NavigationMenuItem>
-            <NavLink
-            to="/dashboard">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Dashboard
-            </NavigationMenuLink>
-            </NavLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
+          {allotment &&
+          <>
+          <NavigationMenuItem >
           <NavLink
-            to="/hostels">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Hostels
-            </NavigationMenuLink>
-            </NavLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-          <NavLink
-            to="/rooms">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Rooms
-            </NavigationMenuLink>
-            </NavLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-          <NavLink
-            to="/teams">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Teams
-            </NavigationMenuLink>
-            </NavLink>
-          </NavigationMenuItem>
+          to="/dashboard">
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            Dashboard
+          </NavigationMenuLink>
+          </NavLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+        <NavLink
+          to="/hostels">
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            Hostels
+          </NavigationMenuLink>
+          </NavLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+        <NavLink
+          to="/rooms">
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            Rooms
+          </NavigationMenuLink>
+          </NavLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+        <NavLink
+          to="/teams">
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            Teams
+          </NavigationMenuLink>
+          </NavLink>
+        </NavigationMenuItem>
+        </>}
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <BellIcon />
