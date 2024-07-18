@@ -5,10 +5,11 @@ import Input from '@/components/ui/input';
 import { ChevronRight, RotateCcw, Upload } from 'lucide-react';
 import Papa from 'papaparse';
 import { useData } from '@/data/useData';
-import { formatTeamsData } from '@/data/fromatData';
+import { formatHostelsData, formatTeamsData } from '@/data/fromatData';
+import { allotRooms} from '@/data/allotmentAlgo';
 
 const InputCard = () => {
-  const { teams, hostels, setHostels, setTeams } = useData();
+  const { teams, hostels, setHostels, setTeams, allotment } = useData();
 
   const [hostelFile, setHostelFile] = useState(null);
   const [teamsFile, setTeamsFile] = useState(null);
@@ -23,6 +24,7 @@ const InputCard = () => {
     if (localTeamsFile) {
       setTeamsFile(JSON.parse(localTeamsFile));
     }
+  
   }, []);
 
   const handleFileUpload = (setter, name) => (event) => {
@@ -40,15 +42,19 @@ const InputCard = () => {
   const handleHostelFileUpload = handleFileUpload(setHostelFile, 'hostelFile');
   const handleTeamsFileUpload = handleFileUpload(setTeamsFile, 'teamsFile');
 
-  const handleProceed = () => {
+  useEffect(() => {
     if (hostelFile) {
       const data = hostelFile.fileData.slice(0, -1);
-      setHostels(data);
+      setHostels(formatHostelsData(data));
     }
     if (teamsFile) {
       const data = teamsFile.fileData.slice(0, -1);
       setTeams(formatTeamsData(data));
     }
+  }, [teamsFile, hostelFile])
+
+  const handleProceed = () => {
+    console.log(allotRooms(teams.boysGroups, hostels.boysHostels, "Boys"))
   };
 
   const handleReset = () => {
@@ -57,7 +63,7 @@ const InputCard = () => {
     localStorage.removeItem('hostelFile');
     localStorage.removeItem('teamsFile');
   };
-console.log(hostels)
+
   return (
     <Card className="w-fit mx-auto p-4 flex flex-col gap-4">
       <div className="w-full p-4">
