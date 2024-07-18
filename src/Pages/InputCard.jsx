@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Card } from '../components/ui/card';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input';
-import { ChevronRight, RotateCcw, Upload } from 'lucide-react';
+import { CheckCircleIcon, ChevronRight, RotateCcw, Upload } from 'lucide-react';
 import Papa from 'papaparse';
 import { useData } from '@/data/useData';
 import { formatHostelsData, formatTeamsData } from '@/data/fromatData';
-import { allotRooms} from '@/data/allotmentAlgo';
+import { allotRooms } from '@/data/allotmentAlgo';
 
 const InputCard = () => {
-  const { teams, hostels, setHostels, setTeams, allotment } = useData();
+  const { teams, hostels, setHostels, setTeams, allotment, setAllotment } = useData();
 
   const [hostelFile, setHostelFile] = useState(null);
   const [teamsFile, setTeamsFile] = useState(null);
@@ -17,6 +17,7 @@ const InputCard = () => {
   useEffect(() => {
     const localHostelFile = localStorage.getItem('hostelFile');
     const localTeamsFile = localStorage.getItem('teamsFile');
+    const localAllotment = localStorage.getItem('allotment');
 
     if (localHostelFile) {
       setHostelFile(JSON.parse(localHostelFile));
@@ -24,8 +25,10 @@ const InputCard = () => {
     if (localTeamsFile) {
       setTeamsFile(JSON.parse(localTeamsFile));
     }
-  
-  }, []);
+    if (localAllotment) {
+      setAllotment(JSON.parse(localAllotment));
+    }
+  }, [setAllotment]);
 
   const handleFileUpload = (setter, name) => (event) => {
     const file = event.target.files[0];
@@ -43,26 +46,43 @@ const InputCard = () => {
   const handleTeamsFileUpload = handleFileUpload(setTeamsFile, 'teamsFile');
 
   useEffect(() => {
-    if (hostelFile) {
+    if (hostelFile && !hostels) {
       const data = hostelFile.fileData.slice(0, -1);
       setHostels(formatHostelsData(data));
     }
-    if (teamsFile) {
+    if (teamsFile && !teams) {
       const data = teamsFile.fileData.slice(0, -1);
       setTeams(formatTeamsData(data));
     }
-  }, [teamsFile, hostelFile])
+  }, [teamsFile, hostelFile, setHostels, setTeams]);
 
-  const handleProceed = () => {
-    console.log(allotRooms(teams.boysGroups, hostels.boysHostels, "Boys"))
-  };
+  const handleProceed = useCallback(() => {
+    if (teams && hostels) {
+      setTimeout(() => {
+        const boysAllottment = allotRooms(teams.boysGroups, hostels.boysHostels, "Boys");
+        const girlsAllottment = allotRooms(teams.girlsGroups, hostels.girlsHostels, "Girls");
+
+        const newAllotment = { boysAllottment, girlsAllottment };
+        setAllotment(newAllotment);
+        localStorage.setItem('allotment', JSON.stringify(newAllotment));
+      }, 3000)  
+    } else {
+      console.log("NO DATA");
+    }
+  }, [teams, hostels, setAllotment]);
 
   const handleReset = () => {
     setHostelFile(null);
     setTeamsFile(null);
+    setAllotment(null);
+    setTeams(null);
+    setHostels(null);
     localStorage.removeItem('hostelFile');
     localStorage.removeItem('teamsFile');
+    localStorage.removeItem('allotment');
   };
+
+  console.log(allotment)
 
   return (
     <Card className="w-fit mx-auto p-4 flex flex-col gap-4">
@@ -96,15 +116,15 @@ const InputCard = () => {
         <Button
           className="w-full gap-2"
           onClick={handleProceed}
-          disabled={!hostelFile || !teamsFile}
+          disabled={!hostelFile || !teamsFile || allotment}
         >
-          {(hostelFile && teamsFile) ? (
-            <>Proceed <ChevronRight /></>
+          {hostelFile && teamsFile ? (
+            allotment ? <>Allotted <CheckCircleIcon /></> : <>Proceed <ChevronRight /></>
           ) : (
             <>Upload Files To Proceed <Upload /></>
           )}
         </Button>
-        {(hostelFile && teamsFile) && (
+        {hostelFile && teamsFile && (
           <Button className="gap-2 w-full" onClick={handleReset}>
             Reset <RotateCcw />
           </Button>
