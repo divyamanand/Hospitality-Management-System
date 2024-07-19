@@ -7,6 +7,7 @@ import Papa from 'papaparse';
 import { useData } from '@/data/useData';
 import { formatHostelsData, formatTeamsData } from '@/data/fromatData';
 import { allotRooms } from '@/data/allotmentAlgo';
+import { summariseDataForHostels } from '@/data/hostelsData';
 
 const InputCard = () => {
   const { teams, hostels, setHostels, setTeams, allotment, setAllotment } = useData();
@@ -82,7 +83,186 @@ const InputCard = () => {
     localStorage.removeItem('allotment');
   };
 
-  console.log(allotment)
+  const hostelss = [
+    {
+        "Hostel Name": "Hostel A",
+        "Room Number": "105",
+        "Capacity": 5,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "6",
+                "Members": 5
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel A",
+        "Room Number": "102",
+        "Capacity": 4,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "6",
+                "Members": 4
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel A",
+        "Room Number": "104",
+        "Capacity": 4,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "8",
+                "Members": 4
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel B",
+        "Room Number": "110",
+        "Capacity": 4,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "8",
+                "Members": 4
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel B",
+        "Room Number": "112",
+        "Capacity": 4,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "8",
+                "Members": 1
+            },
+            {
+                "Group ID": "2",
+                "Members": 3
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel A",
+        "Room Number": "103",
+        "Capacity": 3,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "2",
+                "Members": 3
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel B",
+        "Room Number": "109",
+        "Capacity": 3,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "2",
+                "Members": 1
+            },
+            {
+                "Group ID": "7",
+                "Members": 2
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel B",
+        "Room Number": "108",
+        "Capacity": 2,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "7",
+                "Members": 2
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel B",
+        "Room Number": "111",
+        "Capacity": 2,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "7",
+                "Members": 2
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel B",
+        "Room Number": "107",
+        "Capacity": 1,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "7",
+                "Members": 1
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel A",
+        "Room Number": "101",
+        "Capacity": 1,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "3",
+                "Members": 1
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel A",
+        "Room Number": "106",
+        "Capacity": 6,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "1",
+                "Members": 6
+            }
+        ]
+    },
+    {
+        "Hostel Name": "Hostel B",
+        "Room Number": "113",
+        "Capacity": 6,
+        "Gender": "Girls",
+        "Vacancy": 0,
+        "Teams": [
+            {
+                "Group ID": "10",
+                "Members": 6
+            }
+        ]
+    }
+]
+  console.log(summariseDataForHostels(hostelss))
 
   return (
     <Card className="w-fit mx-auto p-4 flex flex-col gap-4">
