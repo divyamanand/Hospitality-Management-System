@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, Download } from 'lucide-react'
 import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group"
-import {
   Table,
   TableBody,
   TableCell,
@@ -14,12 +10,10 @@ import {
 } from '@/components/ui/table'
 import SearchItem from '../features/SearchItem'
 import { Button } from '@/components/ui/button'
-import { LayoutGridIcon, ListIcon, PlusIcon } from 'lucide-react'
-import PopCard from '../features/PopCard'
-import TeamsPopup from './TeamsPopup'
 import Input from '../ui/input'
 import { useData } from '@/data/useData'
 import { summariseTeamsData } from '@/data/teamsData'
+import Papa from 'papaparse'
 
 function TeamsTable() {
   const { allotment } = useData()
@@ -62,7 +56,21 @@ function TeamsTable() {
     }
   }, [searchValue, teams])
 
-console.log(teams, filteredTeams, listTeams)
+  const downloadCSV = () => {
+    const csv = Papa.unparse(teams);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'teams_data.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
   return (
     <>
       <div className='flex'>
@@ -70,12 +78,9 @@ console.log(teams, filteredTeams, listTeams)
           Teams
         </h2>
         <div className='ml-auto'>
-        <Button className="mx-1">
-          <PlusIcon className='h-auto w-auto mr-2'/> New / Update
-        </Button>
-        <Button className="mx-1">
-          <Download className='h-auto w-auto mr-2'/>  Download
-        </Button>
+          <Button className="mx-1" onClick={downloadCSV}>
+            <Download className='h-auto w-auto mr-2'/> Download
+          </Button>
         </div>
       </div>
       <SearchItem message="Search Teams" handleChange={(e) => setSearchValue(e.target.value)} />
@@ -102,21 +107,25 @@ console.log(teams, filteredTeams, listTeams)
         </Table>
       </div>
       <div className='flex items-center gap-3 justify-end my-3 mx-auto'>
-      <h4>Max</h4>
-      <Input className="w-10" value={length} onChange={(e) => setLength(Math.min(e.target.value,filteredTeams.length))}/>
+        <h4>Max</h4>
+        <Input className="w-10" value={length} onChange={(e) => setLength(Math.min(e.target.value, filteredTeams.length))}/>
         <Button variant="outline" size="icon" className="w-9 h-9"
-        onClick={() => setCurrent(current - 1)}
-        disabled={current <= 1}
-        ><ChevronLeft className='h-4 w-10'/></Button>
+          onClick={() => setCurrent(current - 1)}
+          disabled={current <= 1}
+        >
+          <ChevronLeft className='h-4 w-10'/>
+        </Button>
         <div className="text-xl font-semibold">{current}</div>
         <div className="text-md">{`/ ${totalPages}`}</div>
         <Button 
-        variant="outline"
-        size="icon"
-        className="w-9 h-9"
-        onClick={() => setCurrent(current + 1)}
-        disabled={current === totalPages}>
-          <ChevronRight className='h-4 w-10'/></Button>
+          variant="outline"
+          size="icon"
+          className="w-9 h-9"
+          onClick={() => setCurrent(current + 1)}
+          disabled={current === totalPages}
+        >
+          <ChevronRight className='h-4 w-10'/>
+        </Button>
       </div>
     </>
   )

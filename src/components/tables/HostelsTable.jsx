@@ -53,9 +53,6 @@ const HostelsTable = () => {
         <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
           Manage Your Hostels
         </h2>
-        <Button className="ml-auto">
-          <PlusIcon className='h-auto w-auto' /> New / Update
-        </Button>
       </div>
       <SearchItem message='Search Hostel' handleChange={(e) => setSearchValue(e.target.value)} />
       <div className="flex justify-start mb-2">
