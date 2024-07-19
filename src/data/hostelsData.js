@@ -28,7 +28,8 @@ const summariseDataForHostels = (hostels) => {
         hostelsSummary[hostel] = {...hostelsSummary[hostel], totalCapacity, totalVacancy}
     }
     
-    console.log(hostelsSummary)
+    return hostelsSummary
 };
+
 
 export {summariseDataForHostels}
