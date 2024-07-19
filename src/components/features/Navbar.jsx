@@ -24,27 +24,11 @@ function Navbar() {
         <NavigationMenuList className="flex gap-2">
           {allotment &&
           <>
-          <NavigationMenuItem >
-          <NavLink
-          to="/dashboard">
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Dashboard
-          </NavigationMenuLink>
-          </NavLink>
-        </NavigationMenuItem>
         <NavigationMenuItem>
         <NavLink
           to="/hostels">
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
             Hostels
-          </NavigationMenuLink>
-          </NavLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-        <NavLink
-          to="/rooms">
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Rooms
           </NavigationMenuLink>
           </NavLink>
         </NavigationMenuItem>
