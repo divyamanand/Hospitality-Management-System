@@ -9,14 +9,10 @@ import { useData } from '@/data/useData';
 import { summariseDataForHostels } from '@/data/hostelsData';
 
 const HostelsTable = () => {
-  const {allotment} = useData()
-  const boysHostels = summariseDataForHostels(allotment.boysAllottment.allHostels);
-  const girlsHostels = summariseDataForHostels(allotment.girlsAllottment.allHostels);
-  const hostelData = { ...boysHostels, ...girlsHostels }
-  console.log(hostelData)
+  const {allotment} = useData();
 
-  const [hostels, setHostels] = useState([])
-  const [filteredHostels, setFilteredHostels] = useState(hostels);
+  const [hostels, setHostels] = useState({});
+  const [filteredHostels, setFilteredHostels] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [filters, setFilters] = useState({
     male: false,
@@ -24,7 +20,17 @@ const HostelsTable = () => {
   });
 
   useEffect(() => {
-    let updatedHostels = hostels;
+    const boysHostels = summariseDataForHostels(allotment.boysAllottment.allHostels);
+    const girlsHostels = summariseDataForHostels(allotment.girlsAllottment.allHostels);
+    const hostelData = { ...boysHostels, ...girlsHostels };
+    setHostels(hostelData);
+  }, [allotment]);
+
+  useEffect(() => {
+    let updatedHostels = Object.keys(hostels).map(key => ({
+      Hostel: key,
+      ...hostels[key]
+    }));
 
     if (searchValue) {
       updatedHostels = updatedHostels.filter((value) =>
@@ -33,9 +39,9 @@ const HostelsTable = () => {
     }
 
     if (filters.male) {
-      updatedHostels = updatedHostels.filter(val => val.Gender === "Male");
+      updatedHostels = updatedHostels.filter(val => val.Gender === "Boys");
     } else if (filters.female) {
-      updatedHostels = updatedHostels.filter(val => val.Gender === "Female");
+      updatedHostels = updatedHostels.filter(val => val.Gender === "Girls");
     }
 
     setFilteredHostels(updatedHostels);
@@ -79,8 +85,8 @@ const HostelsTable = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Hostel</TableHead>
-              <TableHead>Occupancy</TableHead>
-              <TableHead>Available</TableHead>
+              <TableHead>Capacity</TableHead>
+              <TableHead>Vacancy</TableHead>
               <TableHead>Gender</TableHead>
               <TableHead className="text-right">Details</TableHead>
             </TableRow>
@@ -89,11 +95,11 @@ const HostelsTable = () => {
             {filteredHostels.map((hostel, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">{hostel.Hostel}</TableCell>
-                <TableCell>{hostel.Occupancy}</TableCell>
-                <TableCell>{hostel.Available}</TableCell>
+                <TableCell>{hostel.totalCapacity}</TableCell>
+                <TableCell>{hostel.totalVacancy}</TableCell>
                 <TableCell>{hostel.Gender}</TableCell>
                 <TableCell className="text-right font-bold text-xs">
-                  <Link to="/rooms">{hostel.Details}</Link>
+                  <Link to="/rooms">Details</Link>
                 </TableCell>
               </TableRow>
             ))}

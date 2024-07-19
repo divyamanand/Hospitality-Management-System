@@ -22,43 +22,47 @@ import { useData } from '@/data/useData'
 import { summariseTeamsData } from '@/data/teamsData'
 
 function TeamsTable() {
-  const {allotment} = useData()
-  const boysTeams = summariseTeamsData(allotment.boysAllottment.allTeams);
-  const girlsTeams = summariseTeamsData(allotment.girlsAllottment.allTeams);
-
-  const totalData = [...boysTeams, ...girlsTeams];
-  const uniqueArray = Array.from(new Set(totalData.map(item => JSON.stringify(item))))
-  .map(item => JSON.parse(item));
+  const { allotment } = useData()
   
   const [teams, setTeams] = useState([])
-  const [filteredTeams, setfilteredTeams] = useState(teams)
-  const [listHostels, setListHostels] = useState(filteredTeams)
+  const [filteredTeams, setFilteredTeams] = useState([])
+  const [listTeams, setListTeams] = useState([])
   const [searchValue, setSearchValue] = useState('')
   const [length, setLength] = useState(10)
   const [current, setCurrent] = useState(1)
   const totalPages = Math.ceil(filteredTeams.length / length)
-  
+
+  useEffect(() => {
+    const boysTeams = summariseTeamsData(allotment.boysAllottment.allTeams);
+    const girlsTeams = summariseTeamsData(allotment.girlsAllottment.allTeams);
+
+    const totalData = [...boysTeams, ...girlsTeams];
+    const uniqueArray = Array.from(new Set(totalData.map(item => JSON.stringify(item))))
+      .map(item => JSON.parse(item));
+    
+    setTeams(uniqueArray)
+    setFilteredTeams(uniqueArray)
+  }, [allotment.boysAllottment.allTeams, allotment.girlsAllottment.allTeams])
 
   useEffect(() => {
     const startIdx = (current - 1) * length
     const endIdx = Math.min(startIdx + length, filteredTeams.length)
-    setListHostels(filteredTeams.slice(startIdx, endIdx))
-  }, [current, length, filteredTeams])
+    setListTeams(filteredTeams.slice(startIdx, endIdx))
+  }, [filteredTeams, length, current])
 
   useEffect(() => {
     if (searchValue) {
-      setfilteredTeams(
+      setFilteredTeams(
         teams.filter((value) =>
-          value.room.toLowerCase().includes(searchValue.toLowerCase())
+          value.GroupID.toLowerCase().includes(searchValue.toLowerCase())
         )
       )
     } else {
-      setfilteredTeams(teams)
+      setFilteredTeams(teams)
     }
-  }, [searchValue])
+  }, [searchValue, teams])
 
-
-
+console.log(teams, filteredTeams, listTeams)
   return (
     <>
       <div className='flex'>
@@ -86,18 +90,12 @@ function TeamsTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {listHostels.map((val, index) => (
+            {listTeams.map((val, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">{val.room}</TableCell>
-                <TableCell>{val.capacity}</TableCell>
-                <TableCell>{val.status}</TableCell>
-                <TableCell className="text-right font-bold text-xs">
-                <PopCard
-                  trigger={
-                    <div>View Details</div>
-                  }
-                  content={<TeamsPopup />}
-                /></TableCell>
+                <TableCell className="font-medium">{val.GroupID}</TableCell>
+                <TableCell>{val.hostelName}</TableCell>
+                <TableCell>{val.roomNumber}</TableCell>
+                <TableCell className="text-right">{val.membersAllocated}</TableCell>
               </TableRow>
             ))}
           </TableBody>
