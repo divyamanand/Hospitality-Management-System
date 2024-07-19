@@ -5,60 +5,17 @@ import { Link } from 'react-router-dom';
 import SearchItem from '../features/SearchItem';
 import { PlusIcon } from 'lucide-react';
 import { Button } from '../ui/button';
+import { useData } from '@/data/useData';
+import { summariseDataForHostels } from '@/data/hostelsData';
 
-const HostelsTable = ({
-  hostels = [
-    {
-      Hostel: 'Vashishtha',
-      Occupancy: 'Paid',
-      Available: '$250.00',
-      Gender: "Male",
-      Details: 'View Details',
-    },
-    {
-      Hostel: 'Vivekananda',
-      Occupancy: 'Pending',
-      Available: '$150.00',
-      Gender: "Female",
-      Details: 'View Details',
-    },
-    {
-      Hostel: 'Panini A',
-      Occupancy: 'Unpaid',
-      Available: '$350.00',
-      Gender: "Male",
-      Details: 'View Details',
-    },
-    {
-      Hostel: 'Panini B',
-      Occupancy: 'Paid',
-      Available: '$450.00',
-      Gender: "Male",
-      Details: 'View Details',
-    },
-    {
-      Hostel: 'Panini C',
-      Occupancy: 'Paid',
-      Available: '$550.00',
-      Gender: "Female",
-      Details: 'View Details',
-    },
-    {
-      Hostel: 'Saraswati',
-      Occupancy: 'Pending',
-      Available: '$200.00',
-      Gender: "Male",
-      Details: 'View Details',
-    },
-    {
-      Hostel: 'Nagarjuna Girls Hostel',
-      Occupancy: 'Unpaid',
-      Available: '$300.00',
-      Gender: "Female",
-      Details: 'View Details',
-    },
-  ]
-}) => {
+const HostelsTable = () => {
+  const {allotment} = useData()
+  const boysHostels = summariseDataForHostels(allotment.boysAllottment.allHostels);
+  const girlsHostels = summariseDataForHostels(allotment.girlsAllottment.allHostels);
+  const hostelData = { ...boysHostels, ...girlsHostels }
+  console.log(hostelData)
+
+  const [hostels, setHostels] = useState([])
   const [filteredHostels, setFilteredHostels] = useState(hostels);
   const [searchValue, setSearchValue] = useState('');
   const [filters, setFilters] = useState({

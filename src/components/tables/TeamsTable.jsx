@@ -18,180 +18,19 @@ import { LayoutGridIcon, ListIcon, PlusIcon } from 'lucide-react'
 import PopCard from '../features/PopCard'
 import TeamsPopup from './TeamsPopup'
 import Input from '../ui/input'
+import { useData } from '@/data/useData'
+import { summariseTeamsData } from '@/data/teamsData'
 
-function TeamsTable({
-  teams = [
-  {
-    room: '101',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '102',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '103',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '104',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '105',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '106',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '107',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '108',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '109',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '110',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '111',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '112',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '113',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '114',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '115',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '116',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '117',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '118',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '119',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '120',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '121',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '122',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '123',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '124',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '125',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '126',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '127',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-  {
-    room: '128',
-    capacity: Math.floor(Math.random() * 4) + 1,
-    status: Math.round(Math.random()),
-    Details: 'View Details',
-  },
-]}) {
+function TeamsTable() {
+  const {allotment} = useData()
+  const boysTeams = summariseTeamsData(allotment.boysAllottment.allTeams);
+  const girlsTeams = summariseTeamsData(allotment.girlsAllottment.allTeams);
+
+  const totalData = [...boysTeams, ...girlsTeams];
+  const uniqueArray = Array.from(new Set(totalData.map(item => JSON.stringify(item))))
+  .map(item => JSON.parse(item));
   
-
+  const [teams, setTeams] = useState([])
   const [filteredTeams, setfilteredTeams] = useState(teams)
   const [listHostels, setListHostels] = useState(filteredTeams)
   const [searchValue, setSearchValue] = useState('')
@@ -199,12 +38,6 @@ function TeamsTable({
   const [current, setCurrent] = useState(1)
   const totalPages = Math.ceil(filteredTeams.length / length)
   
-  const [filters, setFilters] = useState({
-    listview: true,
-    available: false,
-    booked: false,
-    partially: false
-  })
 
   useEffect(() => {
     const startIdx = (current - 1) * length
