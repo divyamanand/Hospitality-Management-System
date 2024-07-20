@@ -7,6 +7,7 @@ npm run dev
 ```
 
 The app is built using **React (Vite)**, **Tailwind CSS**, and **React Router**.
+Node.js should be installed in your system.
 
 ## Use of Local Storage
 
