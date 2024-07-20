@@ -9,7 +9,7 @@ import { useData } from '@/data/useData';
 import { summariseDataForHostels } from '@/data/hostelsData';
 
 const HostelsTable = () => {
-  const {allotment} = useData();
+  const {allotment, setSelectHostel} = useData();
 
   const [hostels, setHostels] = useState({});
   const [filteredHostels, setFilteredHostels] = useState([]);
@@ -27,7 +27,9 @@ const HostelsTable = () => {
   }, [allotment]);
 
   useEffect(() => {
-    let updatedHostels = Object.keys(hostels).map(key => ({
+    const hostelsKeys = Object.keys(hostels)
+    hostelsKeys.sort()
+    let updatedHostels = hostelsKeys.map(key => ({
       Hostel: key,
       ...hostels[key]
     }));
@@ -68,7 +70,7 @@ const HostelsTable = () => {
             }
             className={filters.male ? 'bg-gray-200' : ''}
           >
-            <h4>Male</h4>
+            <h4>Boys</h4>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="Female"
@@ -77,7 +79,7 @@ const HostelsTable = () => {
             }
             className={filters.female ? 'bg-gray-200' : ''}
           >
-            <h4>Female</h4>
+            <h4>Girls</h4>
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
@@ -99,7 +101,8 @@ const HostelsTable = () => {
                 <TableCell>{hostel.totalCapacity}</TableCell>
                 <TableCell>{hostel.totalVacancy}</TableCell>
                 <TableCell>{hostel.Gender}</TableCell>
-                <TableCell className="text-right font-bold text-xs">
+                <TableCell className="text-right font-bold text-xs"
+                onClick={() => setSelectHostel(hostel.Hostel)}>
                   <Link to="/rooms">Details</Link>
                 </TableCell>
               </TableRow>
