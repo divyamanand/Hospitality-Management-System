@@ -6,9 +6,9 @@ import {
   } from "@/components/ui/popover"
 import { PopoverArrow } from '@radix-ui/react-popover'
   
-function PopCard({trigger, content, side="left"}) {
+function PopCard({trigger, content, side="left", open=false}) {
   return (
-    <Popover>
+    <Popover defaultOpen={open}>
         <PopoverTrigger>{trigger}</PopoverTrigger>
         <PopoverContent side={side} className="w-max">
             <PopoverArrow className='w-3 h-2 fill-white shadow-lg'/>
