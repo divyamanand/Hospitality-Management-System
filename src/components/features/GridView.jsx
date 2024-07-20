@@ -20,14 +20,14 @@ function GridComponent({ data }) {
     return (
       <Card className="w-full h-full overflow-hidden">
         <CardHeader className="p-5">
-          <CardTitle className="text-lg md:text-xl lg:text-2xl">{data.room}</CardTitle>
+          <CardTitle className="text-lg md:text-xl lg:text-2xl">{data.roomNumber}</CardTitle>
           <CardDescription className="text-xs md:text-sm lg:text-md font-semibold">
-            {`Capacity: ${data.capacity}`}
+            {`Capacity: ${data.Capacity}`}
           </CardDescription>
         </CardHeader>
         <CardContent className="pb-1 flex justify-center">
-          {(data.vacant/data.capacity)*100 > 0 ? (
-            <Progress value={(data.vacant/data.capacity)*100} className="w-[80%]" />
+          {(data.Vacancy/data.Capacity)*100 > 0 ? (
+            <Progress value={(data.Vacancy/data.Capacity)*100} className="w-[80%]" />
           ) : (
             <Badge variant="destructive">Occupied</Badge>
           )}
@@ -42,10 +42,10 @@ function GridComponent({ data }) {
             side="bottom"
             content={
               <ScrollArea className="max-h-[20vh] overflow-y-auto min-h-min">
-                {data.details.map((val, index) => (
-                  <div key={index} className="flex gap-4 py-1">
-                    <Badge>{val.members}</Badge>
-                    <h4 className="font-semibold">{val.id}</h4>
+                {data.Teams.map((val, index) => (
+                  <div key={index} className="flex gap-4 py-1 w-max">
+                    <Badge>{val["Group ID"]}</Badge>
+                    <h4 className="font-semibold"> <>{val.Members}</> <>Members </></h4>
                   </div>
                 ))}
               </ScrollArea>
@@ -57,30 +57,30 @@ function GridComponent({ data }) {
   }
   
 
-function GridView({filteredHostels}) {
+function GridView({filteredRooms}) {
 
-  const [listHostels, setListHostels] = useState(filteredHostels);
+  const [listRooms, setlistRooms] = useState(filteredRooms);
   const [current, setCurrent] = useState(1);
   const [length, setLength] = useState(12)
-  const totalPages = Math.ceil(filteredHostels.length / length);
+  const totalPages = Math.ceil(filteredRooms.length / length);
 
   useEffect(() => {
     const startIdx = (current - 1) * length;
-    const endIdx = Math.min(startIdx + length, filteredHostels.length);
-    setListHostels(filteredHostels.slice(startIdx, endIdx));
-  }, [current, length, filteredHostels]);
+    const endIdx = Math.min(startIdx + length, filteredRooms.length);
+    setlistRooms(filteredRooms.slice(startIdx, endIdx));
+  }, [current, length, filteredRooms]);
 
 
   return (
     <>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {listHostels.map((val, index) => (
+      {listRooms.map((val, index) => (
         <GridComponent key={index} data={val} />
       ))}
     </div>
     <div className='flex items-center gap-3 justify-end my-3 mx-auto'>
         <h4>Max</h4>
-        <Input className="w-10" value={length} onChange={(e) => setLength(Math.min(e.target.value,filteredHostels.length))}/>
+        <Input className="w-10" value={length} onChange={(e) => setLength(Math.min(e.target.value,filteredRooms.length))}/>
         <Button
           variant="outline"
           size="icon"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import PopCard from '../features/PopCard';
@@ -7,17 +7,18 @@ import TeamsPopup from './TeamsPopup';
 import Input from '../ui/input';
 import { Progress } from '../ui/progress';
 import { Badge } from '../ui/badge';
+import { ScrollArea } from '../ui/scroll-area';
 
 
-function RoomsTable({ filteredHostels}) {
-  const [listHostels, setListHostels] = useState(filteredHostels);
+function RoomsTable({ filteredRooms}) {
+  const [listRooms, setlistRooms] = useState(filteredRooms);
   const [current, setCurrent] = useState(1);
   const [length, setLength] = useState(10)
 
-  const totalPages = Math.ceil(filteredHostels.length / length);
+  const totalPages = Math.ceil(filteredRooms.length / length);
 
   const getStatus = (val) => {
-    const statusValue = (val.vacant / val.capacity) * 100;
+    const statusValue = (val.Vacancy / val.Capacity) * 100;
     if (statusValue === 100) {
       return <Badge className="bg-green-800 hover:bg-green-800/80 w-full">Empty</Badge>;
     } else if (statusValue === 0) {
@@ -29,9 +30,9 @@ function RoomsTable({ filteredHostels}) {
 
   useEffect(() => {
     const startIdx = (current - 1) * length;
-    const endIdx = Math.min(startIdx + length, filteredHostels.length);
-    setListHostels(filteredHostels.slice(startIdx, endIdx));
-  }, [current, length, filteredHostels]);
+    const endIdx = Math.min(startIdx + length, filteredRooms.length);
+    setlistRooms(filteredRooms.slice(startIdx, endIdx));
+  }, [current, length, filteredRooms]);
 
   return (
     <>
@@ -41,27 +42,40 @@ function RoomsTable({ filteredHostels}) {
             <TableRow>
               <TableHead className="w-[100px]">Room</TableHead>
               <TableHead>Capacity</TableHead>
-              <TableHead>Vacant</TableHead>
+              <TableHead>Vacancy</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Details</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {listHostels.map((val, index) => (
+            {listRooms?.map((val, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">{val.room}</TableCell>
-                <TableCell>{val.capacity}</TableCell>
-                <TableCell>{val.vacant}</TableCell>
+                <TableCell className="font-medium">{val.roomNumber}</TableCell>
+                <TableCell>{val.Capacity}</TableCell>
+                <TableCell>{val.Vacancy}</TableCell>
                 <TableCell className="flex w-[70%]">
                 {getStatus(val)}
                 </TableCell>
                 <TableCell className="text-right font-bold text-xs">
                 <PopCard
-                  trigger={
-                    <div>View Details</div>
-                  }
-                  content={<TeamsPopup />}
-                /></TableCell>
+            trigger={
+              <Button variant="link" className="w-min h-min text-xs">
+                View Details <ChevronDown />
+              </Button>
+            }
+            side="left"
+            content={
+              <ScrollArea className="max-h-[40vh] overflow-y-auto min-h-min w-max">
+                {val.Teams.map((team, index) => (
+                  <div key={index} className="flex gap-4 py-1">
+                    <Badge>{team["Group ID"]}</Badge>
+                    <h4 className="font-semibold"> <>{team.Members}</> <>Members </></h4>
+                  </div>
+                ))}
+              </ScrollArea>
+            }
+          />
+          </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -70,7 +84,7 @@ function RoomsTable({ filteredHostels}) {
       
       <div className='flex items-center gap-3 justify-end my-3 mx-auto'>
         <h4>Max</h4>
-        <Input className="w-10" value={length} onChange={(e) => setLength(Math.min(e.target.value,filteredHostels.length))}/>
+        <Input className="w-10" value={length} onChange={(e) => setLength(Math.min(e.target.value,filteredRooms.length))}/>
         <Button
           variant="outline"
           size="icon"

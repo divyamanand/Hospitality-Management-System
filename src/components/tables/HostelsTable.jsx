@@ -47,6 +47,7 @@ const HostelsTable = () => {
     setFilteredHostels(updatedHostels);
   }, [searchValue, filters, hostels]);
 
+  console.log(allotment)
   return (
     <>
       <div className='flex'>

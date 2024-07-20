@@ -7,34 +7,12 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import GridView from '@/components/features/GridView';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useData } from '@/data/useData';
+import { getRoomsList, getHostelsList } from '@/data/rooomsData';
+import { summariseDataForHostels } from '@/data/hostelsData';
 
-function Rooms({ 
-  hostels = [
-    { room: '101', capacity: 4, vacant: 0, details: [ { id: 1122, members: 3 }, { id: 1222, members: 2 }, ] },
-    { room: '102', capacity: 4, vacant: 3, details: [ { id: 1122, members: 3 }, { id: 1222, members: 2 }, ] },
-    { room: '103', capacity: 4, vacant: 3, details: [ { id: 1122, members: 3 }, { id: 1222, members: 2 }, ] },
-    { room: '104', capacity: 4, vacant: 3, details: [ { id: 1122, members: 3 }, { id: 1222, members: 2 }, ] },
-    { room: '105', capacity: 4, vacant: 3, details: [ { id: 1122, members: 3 }, { id: 1222, members: 2 }, ] },
-    { room: 'Room 106', capacity: 2, vacant: 3, details: [ { id: 2233, members: 1 }, ] },
-    { room: 'Room 107', capacity: 3, vacant: 3, details: [ { id: 3344, members: 2 }, { id: 3444, members: 1 }, ] },
-    { room: 'Room 108', capacity: 5, vacant: 3, details: [ { id: 4455, members: 3 }, { id: 4555, members: 2 }, { id: 4655, members: 1 }, ] },
-    { room: 'Room 109', capacity: 6, vacant: 3, details: [ { id: 5566, members: 4 }, ] },
-    { room: 'Room 110', capacity: 3, vacant: 3, details: [ { id: 6677, members: 2 }, { id: 6777, members: 1 }, ] },
-    { room: 'Room 111', capacity: 4, vacant: 3, details: [ { id: 7788, members: 3 }, ] },
-    { room: 'Room 112', capacity: 1, vacant: 3, details: [ { id: 8899, members: 1 }, ] },
-    { room: 'Room 113', capacity: 2, vacant: 3, details: [ { id: 9900, members: 1 }, ] },
-    { room: 'Room 114', capacity: 5, vacant: 3, details: [ { id: 1011, members: 4 }, { id: 1022, members: 1 }, ] },
-  ]
-}) {
-  const hostelsList = [
-    "Vivekananda",
-    "Vashishtha",
-    "Panini A",
-    "Panini B",
-    "Saraswati",
-    "Nagarjuna",
-  ];
-  const [listValue, setListValue] = useState(hostelsList[0]);
+function Rooms() {
+  const {allotment} = useData()
 
   const [filters, setFilters] = useState({
     listview: false,
@@ -43,39 +21,58 @@ function Rooms({
     partially: false,
   });
 
-  const [filteredHostels, setFilteredHostels] = useState(hostels);
-  const [filteredHostelsList, setFilteredHostelsList] = useState(hostelsList);
+  const [listOfHostels, setHostelsList] = useState([])
+  const [listValue, setListValue] = useState(null);
+  const [roomsList, setRoomsList] = useState([])
+
+  useEffect(() => {
+    const list = getHostelsList(allotment)
+    setHostelsList(list);
+    setListValue(list[0])
+  }, [allotment])
+
+
+  useEffect(() => {
+    const roomsList = getRoomsList(allotment, listValue)
+    setRoomsList(roomsList)
+  }, [listValue, allotment])
+
+  
+  const [filteredRooms, setfilteredRooms] = useState(roomsList);
+  const [filteredHostelsList, setfilteredHostelsList] = useState(listOfHostels);
   const [searchValue, setSearchValue] = useState('');
   const [listSearchValue, setListSearchValue] = useState('');
 
   useEffect(() => {
-    let updatedHostels = hostels;
-    let updatedHostelsList = hostelsList;
+    
+    let updatedRooms = roomsList;
+    let updatedHostelsList = listOfHostels;
 
     if (searchValue) {
-      updatedHostels = updatedHostels.filter((value) =>
-        value.room.toLowerCase().includes(searchValue.toLowerCase())
+      updatedRooms = updatedRooms.filter((value) =>
+        value.roomNumber.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
 
     if (listSearchValue) {
-      updatedHostelsList = hostelsList.filter((val) =>
+      updatedHostelsList = listOfHostels.filter((val) =>
         val.toLowerCase().includes(listSearchValue.toLowerCase())
       );
     }
 
     if (filters.available) {
-      updatedHostels = updatedHostels.filter((value) => (value.vacant/value.capacity)*100 === 100);
+      updatedRooms = updatedRooms.filter((value) => (value.Vacancy/value.Capacity)*100 === 100);
     } else if (filters.Occupied) {
-      updatedHostels = updatedHostels.filter((value) => (value.vacant/value.capacity)*100 === 0);
+      updatedRooms = updatedRooms.filter((value) => (value.Vacancy/value.Capacity)*100 === 0);
     } else if (filters.partially) {
-      updatedHostels = updatedHostels.filter((value) => (value.vacant/value.capacity)*100 > 0 && (value.vacant/value.capacity)*100 < 100);
+      updatedRooms = updatedRooms.filter((value) => (value.Vacancy/value.Capacity)*100 > 0 && (value.Vacancy/value.Capacity)*100 < 100);
     }
 
-    setFilteredHostels(updatedHostels);
-    setFilteredHostelsList(updatedHostelsList);
+    setfilteredRooms(updatedRooms);
+    setfilteredHostelsList(updatedHostelsList);
 
-  }, [searchValue, hostels, filters, listSearchValue, hostelsList]);
+  }, [searchValue, filters, listSearchValue, listValue, listOfHostels, roomsList]);
+
 
   return (
     <>
@@ -84,13 +81,13 @@ function Rooms({
           <div className="p-4">
             <ScrollArea className="h-screen rounded-md">
               <SearchItem message='Search' handleChange={(e) => setListSearchValue(e.target.value)} />
-              <ToggleGroup type="single" className="flex-col">
                 {filteredHostelsList.map((hostel, index) => (
-                  <ToggleGroupItem key={index} value={hostel} onClick={() => setListValue(hostel)}>
+                  <Button key={index} value={hostel} 
+                  onClick={() => setListValue(hostel)} variant="secondary"
+                  className={`my-1 ${listValue===hostel? "bg-secondary" : "bg-transparent"}`}>
                     <h2>{hostel}</h2>
-                  </ToggleGroupItem>
+                  </Button>
                 ))}
-              </ToggleGroup>
             </ScrollArea>
           </div>
         </ResizablePanel>
@@ -156,9 +153,9 @@ function Rooms({
             </Button>
           </div>
           {filters.listview ? (
-            <RoomsTable filteredHostels={filteredHostels} />
+            <RoomsTable filteredRooms={filteredRooms} />
           ) : (
-            <GridView filteredHostels={filteredHostels} />
+            <GridView filteredRooms={filteredRooms} />
           )}
         </ResizablePanel>
       </ResizablePanelGroup>
