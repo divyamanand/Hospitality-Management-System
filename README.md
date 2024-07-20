@@ -7,6 +7,7 @@ npm run dev
 ```
 
 The app is built using **React (Vite)**, **Tailwind CSS**, and **React Router**.
+Node.js should be installed in your system.
 
 ## Use of Local Storage
 
@@ -27,3 +28,4 @@ The app is built using **React (Vite)**, **Tailwind CSS**, and **React Router**.
 10. You can download the final output file from the **teams** section.
 11. If any space is vacant after allotment check that in Roms Section.
 12. Almost whole app is responsive. Some components are yet to be updated for improved responsiveness.
+13. Every data shown is extracted from **allotment** data only.
