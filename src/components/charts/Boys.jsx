@@ -22,54 +22,47 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const desktopData = [
-  { month: "january", desktop: 186, fill: "var(--color-january)" },
-  { month: "february", desktop: 305, fill: "var(--color-february)" },
-  { month: "march", desktop: 237, fill: "var(--color-march)" },
-  { month: "april", desktop: 173, fill: "var(--color-april)" },
+const memberData = [
+  { hostel: "Hostel A", members: 186, fill: "var(--color-january)" },
+  { hostel: "Hostel B", members: 305, fill: "var(--color-february)" },
+  { hostel: "Hostel C", members: 237, fill: "var(--color-march)" },
+  { hostel: "Hostel D", members: 173, fill: "var(--color-april)" },
 ];
 
 const chartConfig = {
   visitors: {
     label: "Visitors",
   },
-  desktop: {
-    label: "Desktop",
+  members: {
+    label: "Members",
   },
-  mobile: {
-    label: "Mobile",
-  },
-  january: {
-    label: "January",
+  hostelA: {
+    label: "Hostel A",
     color: "hsl(var(--chart-1))",
   },
-  february: {
-    label: "February",
+  hostelB: {
+    label: "Hostel B",
     color: "hsl(var(--chart-2))",
   },
-  march: {
-    label: "March",
+  hostelC: {
+    label: "Hostel C",
     color: "hsl(var(--chart-3))",
   },
-  april: {
-    label: "April",
+  hostelD: {
+    label: "Hostel D",
     color: "hsl(var(--chart-4))",
-  },
-  may: {
-    label: "May",
-    color: "hsl(var(--chart-5))",
   },
 };
 
 export default function Boys() {
   const id = "pie-interactive";
-  const [activeMonth, setActiveMonth] = useState(desktopData[0].month);
+  const [activeHostel, setActiveHostel] = useState(memberData[0].hostel);
 
   const activeIndex = useMemo(
-    () => desktopData.findIndex((item) => item.month === activeMonth),
-    [activeMonth]
+    () => memberData.findIndex((item) => item.hostel === activeHostel),
+    [activeHostel]
   );
-  const months = useMemo(() => desktopData.map((item) => item.month), []);
+  const hostels = useMemo(() => memberData.map((item) => item.hostel), []);
 
   return (
     <Card data-chart={id} className="flex flex-col">
@@ -78,16 +71,16 @@ export default function Boys() {
         <div className="grid gap-1">
           <CardTitle>Boys</CardTitle>
         </div>
-        <Select value={activeMonth} onValueChange={setActiveMonth}>
+        <Select value={activeHostel} onValueChange={setActiveHostel}>
           <SelectTrigger
             className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
             aria-label="Select a value"
           >
-            <SelectValue placeholder="Select month" />
+            <SelectValue placeholder="Select hostel" />
           </SelectTrigger>
           <SelectContent align="end" className="rounded-xl">
-            {months.map((key) => {
-              const config = chartConfig[key];
+            {hostels.map((key) => {
+              const config = chartConfig[key.replace(/\s+/g, '').toLowerCase()];
 
               if (!config) {
                 return null;
@@ -103,7 +96,7 @@ export default function Boys() {
                     <span
                       className="flex h-3 w-3 shrink-0 rounded-sm"
                       style={{
-                        backgroundColor: `var(--color-${key})`,
+                        backgroundColor: `var(--color-${key.replace(/\s+/g, '').toLowerCase()})`,
                       }}
                     />
                     {config.label}
@@ -126,9 +119,9 @@ export default function Boys() {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={desktopData}
-              dataKey="desktop"
-              nameKey="month"
+              data={memberData}
+              dataKey="members"
+              nameKey="hostel"
               innerRadius={60}
               strokeWidth={5}
               activeIndex={activeIndex}
@@ -158,14 +151,14 @@ export default function Boys() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {desktopData[activeIndex].desktop.toLocaleString()}
+                          {memberData[activeIndex].members.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Members
                         </tspan>
                       </text>
                     );

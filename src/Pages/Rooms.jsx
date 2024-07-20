@@ -34,7 +34,6 @@ function Rooms() {
 }
   }, [allotment, selectHostel])
 
-  console.log(selectHostel)
   useEffect(() => {
     const roomsList = getRoomsList(allotment, listValue)
     setRoomsList(roomsList)
@@ -100,9 +99,6 @@ function Rooms() {
             <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
               Rooms
             </h2>
-            <Button className="ml-auto">
-              <PlusIcon className='h-auto w-auto' /> New / Update
-            </Button>
           </div>
           <SearchItem message="Search Room" handleChange={(e) => setSearchValue(e.target.value)} />
           <div className="flex justify-start mb-2 align-bottom">

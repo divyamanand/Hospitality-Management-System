@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, Download } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, Download } from 'lucide-react'
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -21,6 +21,7 @@ import Input from '../ui/input'
 import { useData } from '@/data/useData'
 import { summariseTeamsData } from '@/data/teamsData'
 import Papa from 'papaparse'
+import Visitors from '../charts/Visitors'
 
 function TeamsTable() {
   const { allotment } = useData()
@@ -33,14 +34,23 @@ function TeamsTable() {
   const [current, setCurrent] = useState(1)
   const totalPages = Math.ceil(filteredTeams.length / length)
 
+  const sortArrayByHostelName = (array) => {
+    return array.sort((a, b) => {
+        return a.hostelName.localeCompare(b.hostelName);
+    });
+};
+
+
+
   useEffect(() => {
     const boysTeams = summariseTeamsData(allotment.boysAllottment.allTeams);
     const girlsTeams = summariseTeamsData(allotment.girlsAllottment.allTeams);
-
-    const totalData = [...boysTeams, ...girlsTeams];
-    const uniqueArray = Array.from(new Set(totalData.map(item => JSON.stringify(item))))
-      .map(item => JSON.parse(item));
     
+    const totalData = [...boysTeams, ...girlsTeams];
+    
+    let uniqueArray = Array.from(new Set(totalData.map(item => JSON.stringify(item))))
+      .map(item => JSON.parse(item));
+    uniqueArray = sortArrayByHostelName(uniqueArray)
     setTeams(uniqueArray)
     setFilteredTeams(uniqueArray)
   }, [allotment.boysAllottment.allTeams, allotment.girlsAllottment.allTeams])
@@ -84,10 +94,20 @@ function TeamsTable() {
         <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
           Teams
         </h2>
+        <div className='ml-auto flex'>
         <div className='ml-auto'>
-        <Button className="mx-1">
-          <PlusIcon className='h-auto w-auto mr-2'/> New / Update
-        </Button>
+          <PopCard
+            trigger={
+              <Button variant="Secondary" className="w-min h-min bg-background">
+                Summary <ChevronDown />
+              </Button>
+            }
+            side="bottom"
+            content={
+              <Visitors/>
+            }
+          />
+        </div>
         <Button className="mx-1"
         onClick={downloadCSV}>
           <Download className='h-auto w-auto mr-2'/>  Download

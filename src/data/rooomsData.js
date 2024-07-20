@@ -27,4 +27,4 @@ const getRoomsList = (allotment, hostelName) => {
     }));
 };
 
-export { getHostelsList, getRoomsList };
+export {mergeHostelData, getHostelsList, getRoomsList };
