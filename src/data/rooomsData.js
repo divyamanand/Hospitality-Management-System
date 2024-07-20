@@ -1,24 +1,30 @@
 import { summariseDataForHostels } from "./hostelsData";
 
-const roomsData = (allotment, hostelName) => {
-
+const mergeHostelData = (allotment) => {
     const boysHostels = summariseDataForHostels(allotment.boysAllottment.allHostels);
     const girlsHostels = summariseDataForHostels(allotment.girlsAllottment.allHostels);
-    const hostelData = { ...boysHostels, ...girlsHostels }
+    return { ...boysHostels, ...girlsHostels };
+};
 
-    const hostelsList = Object.keys(hostelData)
-    const hostel = hostelsList[0] || hostelName || ''
-    let roomsList = new Array()
+const getHostelsList = (allotment) => {
+    const hostelData = mergeHostelData(allotment);
+    const list =  Object.keys(hostelData);
+    list.sort()
+    return list
+};
 
-    if (hostel) {
-    const roomsInHostel = hostelData[hostel].Rooms
-    roomsList = Object.keys(roomsInHostel).map(roomNumber => ({
+const getRoomsList = (allotment, hostelName) => {
+    const hostelData = mergeHostelData(allotment);
+
+    if (!hostelName || !hostelData[hostelName]) {
+        return [];
+    }
+
+    const roomsInHostel = hostelData[hostelName].Rooms;
+    return Object.keys(roomsInHostel).map(roomNumber => ({
         roomNumber,
         ...roomsInHostel[roomNumber]
-    }))
-}
+    }));
+};
 
-    return {hostelsList, roomsList}
-}
-
-export {roomsData}
+export { getHostelsList, getRoomsList };
