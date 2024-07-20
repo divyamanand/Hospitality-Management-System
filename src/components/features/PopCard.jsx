@@ -10,7 +10,7 @@ function PopCard({trigger, content, side="left"}) {
   return (
     <Popover>
         <PopoverTrigger>{trigger}</PopoverTrigger>
-        <PopoverContent side={side} className="w-min">
+        <PopoverContent side={side} className="w-max">
             <PopoverArrow className='w-3 h-2 fill-white shadow-lg'/>
             {content}</PopoverContent>
     </Popover>

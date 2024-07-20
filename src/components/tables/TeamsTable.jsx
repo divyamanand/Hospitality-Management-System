@@ -22,10 +22,14 @@ import { useData } from '@/data/useData'
 import { summariseTeamsData } from '@/data/teamsData'
 import Papa from 'papaparse'
 import Visitors from '../charts/Visitors'
+import { convertTeamsData } from '@/data/dashboardData'
+import UnallocatedTable from './UnallocatedTable'
 
 function TeamsTable() {
   const { allotment } = useData()
-  
+
+  console.log(convertTeamsData(allotment))
+
   const [teams, setTeams] = useState([])
   const [filteredTeams, setFilteredTeams] = useState([])
   const [listTeams, setListTeams] = useState([])
@@ -95,6 +99,19 @@ function TeamsTable() {
           Teams
         </h2>
         <div className='ml-auto flex'>
+        <div className='ml-auto mr-2'>
+          <PopCard
+            trigger={
+              <Button variant="Secondary" className="w-min h-min bg-background">
+                Unallocated <ChevronDown />
+              </Button>
+            }
+            side="bottom"
+            content={
+              <UnallocatedTable/>
+            }
+          />
+        </div>
         <div className='ml-auto'>
           <PopCard
             trigger={
