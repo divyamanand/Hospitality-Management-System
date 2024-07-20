@@ -3,13 +3,15 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Link } from 'react-router-dom';
 import SearchItem from '../features/SearchItem';
-import { PlusIcon } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useData } from '@/data/useData';
-import { summariseDataForHostels } from '@/data/hostelsData';
+import { mergeHostelData } from '@/data/rooomsData';
+import PopCard from '../features/PopCard';
+import Hostels from '../charts/Hostels';
 
 const HostelsTable = () => {
-  const {allotment, setSelectHostel} = useData();
+  const { allotment, setSelectHostel } = useData();
 
   const [hostels, setHostels] = useState({});
   const [filteredHostels, setFilteredHostels] = useState([]);
@@ -20,15 +22,13 @@ const HostelsTable = () => {
   });
 
   useEffect(() => {
-    const boysHostels = summariseDataForHostels(allotment.boysAllottment.allHostels);
-    const girlsHostels = summariseDataForHostels(allotment.girlsAllottment.allHostels);
-    const hostelData = { ...boysHostels, ...girlsHostels };
+    const hostelData = mergeHostelData(allotment);
     setHostels(hostelData);
   }, [allotment]);
 
   useEffect(() => {
-    const hostelsKeys = Object.keys(hostels)
-    hostelsKeys.sort()
+    const hostelsKeys = Object.keys(hostels);
+    hostelsKeys.sort();
     let updatedHostels = hostelsKeys.map(key => ({
       Hostel: key,
       ...hostels[key]
@@ -49,16 +49,26 @@ const HostelsTable = () => {
     setFilteredHostels(updatedHostels);
   }, [searchValue, filters, hostels]);
 
-  console.log(allotment)
+  console.log(allotment);
   return (
     <>
-      <div className='flex'>
+      <div className='flex justify-between items-center'>
         <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
           Manage Your Hostels
         </h2>
-        <Button className="ml-auto">
-          <PlusIcon className='h-auto w-auto' /> New / Update
-        </Button>
+        <div className='ml-auto'>
+          <PopCard
+            trigger={
+              <Button variant="Secondary" className="w-min h-min bg-background">
+                Summary <ChevronDown />
+              </Button>
+            }
+            side="bottom"
+            content={
+              <Hostels/>
+            }
+          />
+        </div>
       </div>
       <SearchItem message='Search Hostel' handleChange={(e) => setSearchValue(e.target.value)} />
       <div className="flex justify-start mb-2">
@@ -102,7 +112,7 @@ const HostelsTable = () => {
                 <TableCell>{hostel.totalVacancy}</TableCell>
                 <TableCell>{hostel.Gender}</TableCell>
                 <TableCell className="text-right font-bold text-xs"
-                onClick={() => setSelectHostel(hostel.Hostel)}>
+                  onClick={() => setSelectHostel(hostel.Hostel)}>
                   <Link to="/rooms">Details</Link>
                 </TableCell>
               </TableRow>

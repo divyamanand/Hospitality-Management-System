@@ -15,14 +15,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { Hostels: "HostelA", Occupied: 186, Vacant: 80 },
-  { Hostels: "February", Occupied: 305, Vacant: 200 },
-  { Hostels: "March", Occupied: 237, Vacant: 120 },
-  { Hostels: "April", Occupied: 73, Vacant: 190 },
-  { Hostels: "May", Occupied: 209, Vacant: 130 },
-  { Hostels: "June", Occupied: 214, Vacant: 140 },
-]
+import { useData } from "@/data/useData"
+import { convertHostelData } from "@/data/dashboardData"
 
 const chartConfig = {
   Occupied: {
@@ -36,13 +30,13 @@ const chartConfig = {
 }
 
 export default function Hostels() {
+  const {allotment} = useData()
+  const chartData = convertHostelData(allotment)
+  
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Hostels</CardTitle>
-      </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className = "min-w-72 max-w-96">
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
