@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     NavigationMenu,
     NavigationMenuList,
@@ -9,9 +9,18 @@ import {
 import { BellIcon } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { useData } from '@/data/useData';
+import PopCard from './PopCard';
+import Notifications from './Notification';
 
 function Navbar() {
   const {allotment} = useData()
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    setOpen(true)
+    setTimeout(() => setTimeout(false), 10000)
+  }, allotment)
+
   return (
     <div className="flex items-center justify-between py-4 px-6 lg:px-12">
       <NavLink
@@ -51,7 +60,12 @@ function Navbar() {
         </>}
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <BellIcon />
+              <PopCard
+              trigger={<BellIcon/>}
+              side="bottom"
+              open={open}
+              content = {<Notifications className="w-min"/>}
+              />
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>

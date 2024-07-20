@@ -15,8 +15,8 @@ import Boys from '@/components/charts/Boys';
 import Girls from '@/components/charts/Girls';
 
 function Rooms() {
-  const {allotment, selectHostel} = useData()
-  const {totalBoys, totalBoysHostelCapacity, totalGirls, totalGirlsHostelCapacity} = convertRoomsData(allotment)
+  const {allotment, selectHostel, notification} = useData()
+  
   const [filters, setFilters] = useState({
     listview: false,
     available: false,

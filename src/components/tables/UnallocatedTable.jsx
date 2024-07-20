@@ -1,6 +1,6 @@
 import { convertTeamsData } from '@/data/dashboardData'
 import { useData } from '@/data/useData'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Table,
     TableBody,
@@ -12,8 +12,24 @@ import {
 import { ScrollArea } from '@radix-ui/react-scroll-area'
 
 function UnallocatedTable() {
-    const {allotment} = useData()
+    const {allotment, setNotifications, notifications} = useData()
     const {boysData, girlsData} = convertTeamsData(allotment)
+
+    useEffect(() => {
+      if (allotment) {
+        setNotifications(prevNotifications => [
+          ...prevNotifications,
+          { title: "Rooms Allotted!", description: "Download from team tab!" }
+        ]);
+      }
+      if (boysData.length > 0 || girlsData.length > 0) {
+        setNotifications(prevNotifications => [
+          ...prevNotifications,
+          { title: "We're exceeding rooms capacity", description: "Check teams tab for unallocated members!" }
+        ]);
+      }
+    }, [allotment, boysData, girlsData, setNotifications]);
+    
 
   return (
     <div className="border-2 rounded-lg">
