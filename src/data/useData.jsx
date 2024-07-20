@@ -7,12 +7,12 @@ const DataProvider = ({children}) => {
     const [teams, setTeams] = useState(null)
     const [allotment, setAllotment] = useState(JSON.parse(localStorage.getItem("allotment")) || null)
     const [hostelData, setHostelData] = useState(null)
-    const [teamsData, setTeamsData] = useState(null)
+    const [selectHostel, setSelectHostel]  = useState(null)
 
     return (
         <DataContext.Provider value = {{hostels, setHostels, teams, 
                                         setTeams, allotment, setAllotment, 
-                                        teamsData, hostelData, setTeamsData, setHostelData}}>
+                                        hostelData, selectHostel, setSelectHostel, setHostelData}}>
             {children}
         </DataContext.Provider>
     )

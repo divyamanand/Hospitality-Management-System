@@ -9,10 +9,9 @@ import GridView from '@/components/features/GridView';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useData } from '@/data/useData';
 import { getRoomsList, getHostelsList } from '@/data/rooomsData';
-import { summariseDataForHostels } from '@/data/hostelsData';
 
 function Rooms() {
-  const {allotment} = useData()
+  const {allotment, selectHostel} = useData()
 
   const [filters, setFilters] = useState({
     listview: false,
@@ -22,16 +21,20 @@ function Rooms() {
   });
 
   const [listOfHostels, setHostelsList] = useState([])
+  
   const [listValue, setListValue] = useState(null);
   const [roomsList, setRoomsList] = useState([])
 
   useEffect(() => {
     const list = getHostelsList(allotment)
     setHostelsList(list);
-    setListValue(list[0])
-  }, [allotment])
+    if (selectHostel) {setListValue(selectHostel)
+    }else {
+  setListValue(list[0])
+}
+  }, [allotment, selectHostel])
 
-
+  console.log(selectHostel)
   useEffect(() => {
     const roomsList = getRoomsList(allotment, listValue)
     setRoomsList(roomsList)

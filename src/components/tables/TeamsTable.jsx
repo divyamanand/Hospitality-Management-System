@@ -20,6 +20,7 @@ import TeamsPopup from './TeamsPopup'
 import Input from '../ui/input'
 import { useData } from '@/data/useData'
 import { summariseTeamsData } from '@/data/teamsData'
+import Papa from 'papaparse'
 
 function TeamsTable() {
   const { allotment } = useData()
@@ -62,7 +63,21 @@ function TeamsTable() {
     }
   }, [searchValue, teams])
 
-console.log(teams, filteredTeams, listTeams)
+  const downloadCSV = () => {
+    const csv = Papa.unparse(teams);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'teamsAllotment.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
   return (
     <>
       <div className='flex'>
@@ -73,7 +88,8 @@ console.log(teams, filteredTeams, listTeams)
         <Button className="mx-1">
           <PlusIcon className='h-auto w-auto mr-2'/> New / Update
         </Button>
-        <Button className="mx-1">
+        <Button className="mx-1"
+        onClick={downloadCSV}>
           <Download className='h-auto w-auto mr-2'/>  Download
         </Button>
         </div>
