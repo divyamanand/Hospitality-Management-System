@@ -1,5 +1,7 @@
 # Run the Application
 
+**CHECK THE SAMPLE FOLDER FOR DEMO FILES. FILES SHOULD BE UPLOADED IN THE SAME FORMAT**
+
 To run the application, use the following command:
 
 ```bash
