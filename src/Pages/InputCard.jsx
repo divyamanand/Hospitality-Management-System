@@ -8,7 +8,6 @@ import { useData } from '@/data/useData';
 import { formatHostelsData, formatTeamsData } from '@/data/fromatData';
 import { allotRooms } from '@/data/allotmentAlgo';
 
-
 const InputCard = () => {
   const { teams, hostels, setHostels, setTeams, allotment, setAllotment} = useData();
   const [hostelFile, setHostelFile] = useState(null);
@@ -69,7 +68,7 @@ const InputCard = () => {
     }
   }, [teams, hostels]);
 
-
+  console.log(teams, hostels)
   const handleReset = () => {
     setHostelFile(null);
     setTeamsFile(null);
