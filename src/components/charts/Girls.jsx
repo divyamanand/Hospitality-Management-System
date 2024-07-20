@@ -1,147 +1,89 @@
-import React, { useState, useMemo } from "react";
-import { Label, Pie, PieChart, Sector } from "recharts";
+import * as React from "react";
+import { Label, Pie, PieChart } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
   ChartContainer,
-  ChartStyle,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-const desktopData = [
-  { month: "january", desktop: 186, fill: "var(--color-january)" },
-  { month: "february", desktop: 305, fill: "var(--color-february)" },
-  { month: "march", desktop: 237, fill: "var(--color-march)" },
-  { month: "april", desktop: 173, fill: "var(--color-april)" },
-];
+import { useData } from "@/data/useData";
+import { convertRoomsData, convertVisitorsData } from "@/data/dashboardData";
 
 const chartConfig = {
   visitors: {
     label: "Visitors",
   },
-  desktop: {
-    label: "Desktop",
-  },
-  mobile: {
-    label: "Mobile",
-  },
-  january: {
-    label: "January",
+  chrome: {
+    label: "Chrome",
     color: "hsl(var(--chart-1))",
   },
-  february: {
-    label: "February",
+  safari: {
+    label: "Safari",
     color: "hsl(var(--chart-2))",
   },
-  march: {
-    label: "March",
+  firefox: {
+    label: "Firefox",
     color: "hsl(var(--chart-3))",
   },
-  april: {
-    label: "April",
+  edge: {
+    label: "Edge",
     color: "hsl(var(--chart-4))",
   },
-  may: {
-    label: "May",
+  other: {
+    label: "Other",
     color: "hsl(var(--chart-5))",
   },
 };
 
 export default function Girls() {
-  const id = "pie-interactive";
-  const [activeMonth, setActiveMonth] = useState(desktopData[0].month);
+  const {allotment} = useData()
 
-  const activeIndex = useMemo(
-    () => desktopData.findIndex((item) => item.month === activeMonth),
-    [activeMonth]
-  );
-  const months = useMemo(() => desktopData.map((item) => item.month), []);
+  const {totalGirls, totalGirlsHostelCapacity} = convertRoomsData(allotment)
+  const chartData = {
+    "people": [
+        {
+            "browser": "Girls",
+            "visitors": totalGirls,
+            "fill": "var(--color-chrome)"
+        },
+        {
+            "browser": "Capacity",
+            "visitors": totalGirlsHostelCapacity,
+            "fill": "var(--color-safari)"
+        }
+    ]
+}
+  const totalVisitors = React.useMemo(() => {
+    return chartData.people.reduce((acc, curr) => acc + curr.visitors, 0);
+  }, []);
 
   return (
-    <Card data-chart={id} className="flex flex-col">
-      <ChartStyle id={id} config={chartConfig} />
-      <CardHeader className="flex-row items-start space-y-0 pb-0">
-        <div className="grid gap-1">
-          <CardTitle>Girls Hostel</CardTitle>
-        </div>
-        <Select value={activeMonth} onValueChange={setActiveMonth}>
-          <SelectTrigger
-            className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
-            aria-label="Select a value"
-          >
-            <SelectValue placeholder="Select month" />
-          </SelectTrigger>
-          <SelectContent align="end" className="rounded-xl">
-            {months.map((key) => {
-              const config = chartConfig[key];
-
-              if (!config) {
-                return null;
-              }
-
-              return (
-                <SelectItem
-                  key={key}
-                  value={key}
-                  className="rounded-lg [&_span]:flex"
-                >
-                  <div className="flex items-center gap-2 text-xs">
-                    <span
-                      className="flex h-3 w-3 shrink-0 rounded-sm"
-                      style={{
-                        backgroundColor: `var(--color-${key})`,
-                      }}
-                    />
-                    {config.label}
-                  </div>
-                </SelectItem>
-              );
-            })}
-          </SelectContent>
-        </Select>
-      </CardHeader>
-      <CardContent className="flex flex-1 justify-center pb-0">
+    <Card className="flex flex-col">
+      <CardContent className="flex-1 pb-0" style={{width: "250px"}}>
         <ChartContainer
-          id={id}
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[300px]"
+          className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
             <ChartTooltip
-              cursor={false}
+              cursor={{ stroke: "var(--color-foreground)" }}
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={desktopData}
-              dataKey="desktop"
-              nameKey="month"
+              data={chartData.people}
+              dataKey="visitors"
+              nameKey="browser"
               innerRadius={60}
+              outerRadius={90} // Added outerRadius for the donut effect
               strokeWidth={5}
-              activeIndex={activeIndex}
-              activeShape={({ outerRadius = 0, ...props }) => (
-                <g>
-                  <Sector {...props} outerRadius={outerRadius + 10} />
-                  <Sector
-                    {...props}
-                    outerRadius={outerRadius + 25}
-                    innerRadius={outerRadius + 12}
-                  />
-                </g>
-              )}
             >
               <Label
                 content={({ viewBox }) => {
@@ -156,16 +98,16 @@ export default function Girls() {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-foreground text-2xl font-bold"
                         >
-                          {desktopData[activeIndex].desktop.toLocaleString()}
+                          Girls
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          
                         </tspan>
                       </text>
                     );

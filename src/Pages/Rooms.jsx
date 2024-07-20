@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RoomsTable from '@/components/tables/RoomsTable';
 import { Button } from '@/components/ui/button';
-import { LayoutGridIcon, ListIcon, PlusIcon } from 'lucide-react';
+import { ChevronDown, ChevronLeft, LayoutGridIcon, ListIcon, PlusIcon } from 'lucide-react';
 import SearchItem from '@/components/features/SearchItem';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
@@ -9,10 +9,14 @@ import GridView from '@/components/features/GridView';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useData } from '@/data/useData';
 import { getRoomsList, getHostelsList } from '@/data/rooomsData';
+import PopCard from '@/components/features/PopCard';
+import {convertRoomsData } from '@/data/dashboardData';
+import Boys from '@/components/charts/Boys';
+import Girls from '@/components/charts/Girls';
 
 function Rooms() {
   const {allotment, selectHostel} = useData()
-
+  const {totalBoys, totalBoysHostelCapacity, totalGirls, totalGirlsHostelCapacity} = convertRoomsData(allotment)
   const [filters, setFilters] = useState({
     listview: false,
     available: false,
@@ -99,6 +103,22 @@ function Rooms() {
             <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
               Rooms
             </h2>
+            <div className='ml-auto'>
+          <PopCard
+            trigger={
+              <Button variant="Secondary" className="w-min h-min bg-background">
+                <ChevronLeft /> Summary 
+              </Button>
+            }
+            side="left"
+            content={
+              <div className='flex gap-2'>
+              <Boys/>
+              <Girls/>
+              </div>
+            }
+          />
+        </div>
           </div>
           <SearchItem message="Search Room" handleChange={(e) => setSearchValue(e.target.value)} />
           <div className="flex justify-start mb-2 align-bottom">

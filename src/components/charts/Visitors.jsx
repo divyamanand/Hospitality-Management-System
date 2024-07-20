@@ -47,7 +47,7 @@ export default function Visitors() {
   const {allotment} = useData()
 
   const chartData = convertVisitorsData(allotment)
-
+  console.log(chartData)
   const totalVisitors = React.useMemo(() => {
     return chartData.people.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);
