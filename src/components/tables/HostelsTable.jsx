@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Link } from 'react-router-dom';
-import SearchItem from '../features/SearchItem';
-import { ChevronDown } from 'lucide-react';
-import { Button } from '../ui/button';
-import { useData } from '@/data/useData';
-import { mergeHostelData } from '@/data/rooomsData';
-import PopCard from '../features/PopCard';
-import Hostels from '../charts/Hostels';
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"; // UI component for toggle buttons
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'; // UI components for table
+import { Link } from 'react-router-dom'; // Link component for navigation
+import SearchItem from '../features/SearchItem'; // Search input component
+import { ChevronDown } from 'lucide-react'; // Icon for dropdown
+import { Button } from '../ui/button'; // UI component for buttons
+import { useData } from '@/data/useData'; // Custom hook for data
+import { mergeHostelData } from '@/data/rooomsData'; // Function to merge hostel data
+import PopCard from '../features/PopCard'; // Component for pop-up cards
+import Hostels from '../charts/Hostels'; // Component for hostel summary chart
 
 const HostelsTable = () => {
-  const { allotment, setSelectHostel } = useData();
+  const { allotment, setSelectHostel } = useData(); // Data and setter from custom hook
 
-  const [hostels, setHostels] = useState({});
-  const [filteredHostels, setFilteredHostels] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [hostels, setHostels] = useState({}); // State to store hostel data
+  const [filteredHostels, setFilteredHostels] = useState([]); // State to store filtered hostel data
+  const [searchValue, setSearchValue] = useState(''); // State for search input
   const [filters, setFilters] = useState({
     male: false,
     female: false,
-  });
+  }); // State for gender filters
 
+  // Effect to merge and set hostel data when allotment changes
   useEffect(() => {
     const hostelData = mergeHostelData(allotment);
     setHostels(hostelData);
   }, [allotment]);
 
+  // Effect to filter and update hostels based on search and filters
   useEffect(() => {
     const hostelsKeys = Object.keys(hostels);
     hostelsKeys.sort();
@@ -34,12 +36,14 @@ const HostelsTable = () => {
       ...hostels[key]
     }));
 
+    // Apply search filter
     if (searchValue) {
       updatedHostels = updatedHostels.filter((value) =>
         value.Hostel.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
 
+    // Apply gender filters
     if (filters.male) {
       updatedHostels = updatedHostels.filter(val => val.Gender === "Boys");
     } else if (filters.female) {
@@ -49,7 +53,6 @@ const HostelsTable = () => {
     setFilteredHostels(updatedHostels);
   }, [searchValue, filters, hostels]);
 
-  console.log(allotment);
   return (
     <>
       <div className='flex justify-between items-center'>
@@ -64,9 +67,7 @@ const HostelsTable = () => {
               </Button>
             }
             side="bottom"
-            content={
-              <Hostels/>
-            }
+            content={<Hostels />} // Pop-up content with hostel summary chart
           />
         </div>
       </div>
@@ -75,18 +76,14 @@ const HostelsTable = () => {
         <ToggleGroup type="single" className="inline-block">
           <ToggleGroupItem
             value="Male"
-            onClick={() =>
-              setFilters({ male: !filters.male, female: false })
-            }
+            onClick={() => setFilters({ male: !filters.male, female: false })}
             className={filters.male ? 'bg-gray-200' : ''}
           >
             <h4>Boys</h4>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="Female"
-            onClick={() =>
-              setFilters({ male: false, female: !filters.female })
-            }
+            onClick={() => setFilters({ male: false, female: !filters.female })}
             className={filters.female ? 'bg-gray-200' : ''}
           >
             <h4>Girls</h4>
