@@ -14,13 +14,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-const chartData = {
-  teams: 10,
-  people: [
-  { browser: "Boys", visitors: 500, fill: "var(--color-chrome)" },
-  { browser: "Girls", visitors: 1600, fill: "var(--color-safari)" },
-]};
+import { useData } from "@/data/useData";
+import { convertVisitorsData } from "@/data/dashboardData";
 
 const chartConfig = {
   visitors: {
@@ -49,16 +44,17 @@ const chartConfig = {
 };
 
 export default function Visitors() {
+  const {allotment} = useData()
+
+  const chartData = convertVisitorsData(allotment)
+  console.log(chartData)
   const totalVisitors = React.useMemo(() => {
     return chartData.people.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);
 
   return (
     <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Total Teams: {chartData.teams}</CardTitle>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1 pb-0" style={{width: "250px"}}>
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px]"
