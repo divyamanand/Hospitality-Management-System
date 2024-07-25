@@ -5,6 +5,7 @@
 To run the application, use the following command:
 
 ```bash
+npm install
 npm run dev
 ```
 
