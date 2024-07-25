@@ -59,6 +59,7 @@ const HostelsTable = () => {
         <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
           Manage Your Hostels
         </h2>
+<<<<<<< HEAD
         <div className='ml-auto'>
           <PopCard
             trigger={
@@ -70,6 +71,8 @@ const HostelsTable = () => {
             content={<Hostels />} // Pop-up content with hostel summary chart
           />
         </div>
+=======
+>>>>>>> 52c772a3a9b0570609d5bf9df1749eaba376d8ab
       </div>
       <SearchItem message='Search Hostel' handleChange={(e) => setSearchValue(e.target.value)} />
       <div className="flex justify-start mb-2">

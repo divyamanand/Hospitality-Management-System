@@ -28,6 +28,7 @@ function Navbar() {
       {/* Navigation menu */}
       <NavigationMenu className="ml-auto">
         <NavigationMenuList className="flex gap-2">
+<<<<<<< HEAD
           {allotment && (
             <>
               <NavigationMenuItem>
@@ -54,6 +55,27 @@ function Navbar() {
             </>
           )}
           {/* Notification button with pop-up */}
+=======
+          {allotment &&
+          <>
+        <NavigationMenuItem>
+        <NavLink
+          to="/hostels">
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            Hostels
+          </NavigationMenuLink>
+          </NavLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+        <NavLink
+          to="/teams">
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            Teams
+          </NavigationMenuLink>
+          </NavLink>
+        </NavigationMenuItem>
+        </>}
+>>>>>>> 52c772a3a9b0570609d5bf9df1749eaba376d8ab
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <PopCard
