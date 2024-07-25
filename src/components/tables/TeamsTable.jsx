@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+=======
+import React, { useState, useEffect } from 'react'
+import { ChevronLeft, ChevronRight, Download } from 'lucide-react'
+>>>>>>> 52c772a3a9b0570609d5bf9df1749eaba376d8ab
 import {
   Table,
   TableBody,
@@ -7,6 +12,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+<<<<<<< HEAD
 } from '@/components/ui/table'; // UI components for table
 import SearchItem from '../features/SearchItem'; // Component for searching
 import { Button } from '@/components/ui/button'; // UI component for buttons
@@ -17,6 +23,15 @@ import { summariseTeamsData } from '@/data/teamsData'; // Function for summarizi
 import Papa from 'papaparse'; // Library for parsing CSV data
 import UnallocatedTable from './UnallocatedTable'; // Component to display unallocated teams
 import Visitors from '../charts/Visitors';
+=======
+} from '@/components/ui/table'
+import SearchItem from '../features/SearchItem'
+import { Button } from '@/components/ui/button'
+import Input from '../ui/input'
+import { useData } from '@/data/useData'
+import { summariseTeamsData } from '@/data/teamsData'
+import Papa from 'papaparse'
+>>>>>>> 52c772a3a9b0570609d5bf9df1749eaba376d8ab
 
 function TeamsTable() {
   const { allotment } = useData(); // Get allotment data from the custom hook
@@ -82,12 +97,31 @@ function TeamsTable() {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const downloadCSV = () => {
+    const csv = Papa.unparse(teams);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'teams_data.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
+>>>>>>> 52c772a3a9b0570609d5bf9df1749eaba376d8ab
   return (
     <>
       <div className='flex'>
         <h2 className="scroll-m-20 pb-7 text-3xl font-semibold tracking-tight first:mt-0 text-left">
           Teams
         </h2>
+<<<<<<< HEAD
         <div className='ml-auto flex'>
           <div className='ml-auto mr-2'>
             <PopCard
@@ -113,6 +147,11 @@ function TeamsTable() {
           </div>
           <Button className="mx-1" onClick={downloadCSV}>
             <Download className='h-auto w-auto mr-2' /> Download
+=======
+        <div className='ml-auto'>
+          <Button className="mx-1" onClick={downloadCSV}>
+            <Download className='h-auto w-auto mr-2'/> Download
+>>>>>>> 52c772a3a9b0570609d5bf9df1749eaba376d8ab
           </Button>
         </div>
       </div>
@@ -141,6 +180,7 @@ function TeamsTable() {
       </div>
       <div className='flex items-center gap-3 justify-end my-3 mx-auto'>
         <h4>Max</h4>
+<<<<<<< HEAD
         <Input className="w-10" value={length} onChange={(e) => setLength(Math.min(e.target.value, filteredTeams.length))} />
         <Button variant="outline" size="icon" className="w-9 h-9" onClick={() => setCurrent(current - 1)} disabled={current <= 1}>
           <ChevronLeft className='h-4 w-10' />
@@ -148,13 +188,29 @@ function TeamsTable() {
         <div className="text-xl font-semibold">{current}</div>
         <div className="text-md">{`/ ${totalPages}`}</div>
         <Button
+=======
+        <Input className="w-10" value={length} onChange={(e) => setLength(Math.min(e.target.value, filteredTeams.length))}/>
+        <Button variant="outline" size="icon" className="w-9 h-9"
+          onClick={() => setCurrent(current - 1)}
+          disabled={current <= 1}
+        >
+          <ChevronLeft className='h-4 w-10'/>
+        </Button>
+        <div className="text-xl font-semibold">{current}</div>
+        <div className="text-md">{`/ ${totalPages}`}</div>
+        <Button 
+>>>>>>> 52c772a3a9b0570609d5bf9df1749eaba376d8ab
           variant="outline"
           size="icon"
           className="w-9 h-9"
           onClick={() => setCurrent(current + 1)}
           disabled={current === totalPages}
         >
+<<<<<<< HEAD
           <ChevronRight className='h-4 w-10' />
+=======
+          <ChevronRight className='h-4 w-10'/>
+>>>>>>> 52c772a3a9b0570609d5bf9df1749eaba376d8ab
         </Button>
       </div>
     </>
