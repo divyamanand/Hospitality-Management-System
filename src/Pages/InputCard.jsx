@@ -13,19 +13,45 @@ const InputCard = () => {
   const { teams, hostels, setHostels, setTeams, allotment, setAllotment } = useData();
   const [hostelFile, setHostelFile] = useState(null); // State for storing hostel file data
   const [teamsFile, setTeamsFile] = useState(null); // State for storing teams file data
+  const [sample, setSample] = useState({
+    hostels: { fileName: 'sample/hostel_rooms.csv', fileData: null },
+    teams: { fileName: 'sample/Teams data.csv', fileData: null },
+  });
 
   useEffect(() => {
     // Retrieve previously uploaded files from localStorage when component mounts
     const localHostelFile = localStorage.getItem('hostelFile');
     const localTeamsFile = localStorage.getItem('teamsFile');
 
+    // Use localStorage data if available, otherwise use sample data
     if (localHostelFile) {
       setHostelFile(JSON.parse(localHostelFile));
+    } else {
+      fetchSampleData(sample.hostels.fileName, setHostelFile, 'hostelFile');
     }
+
     if (localTeamsFile) {
       setTeamsFile(JSON.parse(localTeamsFile));
+    } else {
+      fetchSampleData(sample.teams.fileName, setTeamsFile, 'teamsFile');
     }
-  }, []);
+  }, [sample]);
+
+  // Function to fetch sample data and parse CSV
+  const fetchSampleData = (filePath, setter, name) => {
+    fetch(filePath)
+      .then((response) => response.text())
+      .then((text) => {
+        Papa.parse(text, {
+          header: true,
+          complete: (result) => {
+            const fileData = { fileName: filePath.split('/').pop(), fileData: result.data };
+            localStorage.setItem(name, JSON.stringify(fileData)); // Save file data to localStorage
+            setter(fileData); // Update state with the parsed file data
+          },
+        });
+      });
+  };
 
   // Function to handle file uploads, parse CSV, and store data in localStorage
   const handleFileUpload = (setter, name) => (event) => {
@@ -61,17 +87,17 @@ const InputCard = () => {
     try {
       if (teams && hostels && !allotment) {
         // Perform room allotment for boys and girls groups
-        const boysAllottment = allotRooms(teams.boysGroups, hostels.boysHostels, "Boys");
-        const girlsAllottment = allotRooms(teams.girlsGroups, hostels.girlsHostels, "Girls");
+        const boysAllottment = allotRooms(teams.boysGroups, hostels.boysHostels, 'Boys');
+        const girlsAllottment = allotRooms(teams.girlsGroups, hostels.girlsHostels, 'Girls');
 
         const newAllotment = { boysAllottment, girlsAllottment };
         setAllotment(newAllotment); // Update allotment state
         localStorage.setItem('allotment', JSON.stringify(newAllotment)); // Save allotment to localStorage
       }
     } catch (err) {
-      console.log("SOME ERROR OCCURRED! CHECK YOUR DATA", err); // Log error if any occurs
+      console.log('SOME ERROR OCCURRED! CHECK YOUR DATA', err); // Log error if any occurs
     } finally {
-      console.log("DONE"); // Log completion
+      console.log('DONE'); // Log completion
     }
   }, [teams, hostels, allotment, setAllotment]);
 
@@ -123,9 +149,19 @@ const InputCard = () => {
           disabled={!hostelFile || !teamsFile || allotment} // Disable if files are not uploaded or allotment exists
         >
           {hostelFile && teamsFile ? (
-            allotment ? <>Allotted <CheckCircleIcon /></> : <>Proceed <ChevronRight /></>
+            allotment ? (
+              <>
+                Allotted <CheckCircleIcon />
+              </>
+            ) : (
+              <>
+                Proceed <ChevronRight />
+              </>
+            )
           ) : (
-            <>Upload Files To Proceed <Upload /></>
+            <>
+              Upload Files To Proceed <Upload />
+            </>
           )}
         </Button>
         {hostelFile && teamsFile && (
