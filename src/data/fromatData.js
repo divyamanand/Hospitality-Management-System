@@ -11,7 +11,7 @@ const formatTeamsData = (groups) => {
         let boys = 0; // Initialize count of boys
         let girls = 0; // Initialize count of girls
 
-        const genderStr = Gender.toLowerCase(); // Convert Gender to lowercase for case-insensitive comparison
+        const genderStr = Gender?.toLowerCase(); // Convert Gender to lowercase for case-insensitive comparison
 
         // If gender string includes "boys" or "boy", extract the number of boys
         if (genderStr.includes("boys") || genderStr.includes("boy")) {
